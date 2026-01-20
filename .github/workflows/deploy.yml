@@ -48,7 +48,7 @@ jobs:
         uses: koyeb/action-git-deploy@v1
         with:
           # choose stable names so it updates the same service each time
-          app-name: snake-leaderboard-backend
+          app-name: fit-maisie
           service-name: snake-leaderboard-backend
 
           # Your Spring port (8080 recommended)

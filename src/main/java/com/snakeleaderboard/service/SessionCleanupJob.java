@@ -5,7 +5,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class SessionCleanupJob {
-
+    /** Session Cleanup feature **/
     private final SessionService sessionService;
 
     public SessionCleanupJob(SessionService sessionService) {

@@ -74,4 +74,13 @@ public class SessionService {
             throw new IllegalStateException("SHA-256 not available", e);
         }
     }
+
+    public int deleteExpiredSessions() {
+        return jdbc.sql("""
+        DELETE FROM sessions
+        WHERE expires_at <= ?
+        """)
+                .params(java.time.OffsetDateTime.now(java.time.ZoneOffset.UTC))
+                .update();
+    }
 }

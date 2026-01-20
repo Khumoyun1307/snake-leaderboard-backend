@@ -1,0 +1,64 @@
+name: Deploy to Koyeb
+
+on:
+  workflow_run:
+    workflows: ["CI"]
+    types:
+      - completed
+
+jobs:
+  deploy:
+    if: ${{ github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.head_branch == 'main' }}
+    runs-on: ubuntu-latest
+    concurrency:
+      group: koyeb-main
+      cancel-in-progress: true
+
+    steps:
+      - name: Checkout the exact commit that passed CI
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.workflow_run.head_sha }}
+
+      - name: Install and configure Koyeb CLI
+        uses: koyeb-community/koyeb-actions@v2
+        with:
+          api_token: "${{ secrets.KOYEB_API_TOKEN }}"
+
+      # (Optional but recommended) Create/update Koyeb secrets from GitHub Secrets
+      - name: Create Koyeb secret - SPRING_DATASOURCE_URL
+        uses: koyeb/action-git-deploy/secret@v1
+        with:
+          secret-name: SPRING_DATASOURCE_URL
+          secret-value: "${{ secrets.SPRING_DATASOURCE_URL }}"
+
+      - name: Create Koyeb secret - SPRING_DATASOURCE_USERNAME
+        uses: koyeb/action-git-deploy/secret@v1
+        with:
+          secret-name: SPRING_DATASOURCE_USERNAME
+          secret-value: "${{ secrets.SPRING_DATASOURCE_USERNAME }}"
+
+      - name: Create Koyeb secret - SPRING_DATASOURCE_PASSWORD
+        uses: koyeb/action-git-deploy/secret@v1
+        with:
+          secret-name: SPRING_DATASOURCE_PASSWORD
+          secret-value: "${{ secrets.SPRING_DATASOURCE_PASSWORD }}"
+
+      - name: Build and deploy to Koyeb
+        uses: koyeb/action-git-deploy@v1
+        with:
+          # choose stable names so it updates the same service each time
+          app-name: snake-leaderboard-api
+          service-name: snake-leaderboard-api
+
+          # Your Spring port (8080 recommended)
+          service-ports: "8080:http"
+          service-routes: "/:8080"
+          service-checks: "8080:http:/health"
+
+          # Inject env vars (from Koyeb secrets created above)
+          service-env: >-
+            PORT=8080,
+            SPRING_DATASOURCE_URL=@SPRING_DATASOURCE_URL,
+            SPRING_DATASOURCE_USERNAME=@SPRING_DATASOURCE_USERNAME,
+            SPRING_DATASOURCE_PASSWORD=@SPRING_DATASOURCE_PASSWORD

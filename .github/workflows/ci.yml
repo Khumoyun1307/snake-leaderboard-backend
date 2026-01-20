@@ -8,7 +8,6 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -19,6 +18,9 @@ jobs:
           distribution: temurin
           java-version: "21"
           cache: maven
+
+      - name: Make mvnw executable
+        run: chmod +x mvnw
 
       - name: Run tests
         run: ./mvnw -U clean test

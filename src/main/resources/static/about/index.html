@@ -1,24 +1,264 @@
-<!doctype html><html lang="en"><head>
-    <meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
-    <title>Download — Snake</title>
-    <link rel="stylesheet" href="/assets/styles.css"/>
-</head><body>
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>About — Snake</title>
+    <meta name="description" content="About Snake: a modern take on a classic Nokia-era game with a desktop client, online leaderboard, and web presence." />
+    <link rel="stylesheet" href="/assets/styles.css" />
+</head>
+
+<body>
 <div class="bg"></div>
+
+<!-- NAV -->
 <header class="navwrap">
-    <div class="nav container glass">
-        <a class="brand" href="/"><span class="brand-dot"></span><span>Snake</span></a>
-        <nav class="navlinks"><a class="btn ghost" href="/">Home</a></nav>
-        <div class="navcta"><a class="btn" href="/leaderboard/">Leaderboard</a></div>
-    </div>
-</header>
-<main class="container section">
-    <div class="glass" style="padding:18px">
-        <h1 class="h2">Download</h1>
-        <p class="muted">Coming soon. We’ll link to GitHub Releases or host installers here.</p>
-        <div class="actions">
-            <a class="btn primary" href="#" onclick="return false;">Download (soon)</a>
-            <a class="btn" href="/">Back</a>
+    <div class="container navbar">
+        <div class="navpill glass">
+            <a class="brand" href="/" aria-label="Snake home">
+        <span class="brand-icon" aria-hidden="true">
+          <span class="dot"></span>
+          <span class="bar"></span>
+        </span>
+                <span class="brand-name">Snake</span>
+            </a>
+
+            <nav class="navlinks" aria-label="Primary">
+                <a href="/downloads/">Download</a>
+                <a href="/leaderboard/">Leaderboard</a>
+                <a href="/developers/">For Developers</a>
+                <a class="active" href="/about/">About</a>
+            </nav>
+
+            <button class="iconbtn" id="menuBtn" aria-label="Open menu" aria-expanded="false">☰</button>
+        </div>
+
+        <div class="navctas">
+            <a class="btn" href="/downloads/">Download</a>
+            <a class="btn primary" href="https://github.com/YOUR_GITHUB" target="_blank" rel="noopener">GitHub</a>
         </div>
     </div>
+
+    <div class="container mobilemenu glass" id="mobileMenu" hidden>
+        <a href="/downloads/">Download</a>
+        <a href="/leaderboard/">Leaderboard</a>
+        <a href="/developers/">For Developers</a>
+        <a href="/about/">About</a>
+        <a href="/">Home</a>
+        <a href="https://github.com/YOUR_GITHUB" target="_blank" rel="noopener">GitHub</a>
+    </div>
+</header>
+
+<main>
+    <!-- HERO -->
+    <section class="section container">
+        <div class="about-hero reveal up">
+            <div class="about-hero-left">
+                <h1 class="title" style="margin-bottom:10px;">
+                    The classic <span class="grad">Snake</span> feeling — rebuilt.
+                </h1>
+
+                <p class="subtitle">
+                    Inspired by the Nokia-era Snake games: quick restarts, simple rules, and that “just one more run” loop.
+                    This version adds a desktop app, a real backend, and online leaderboards.
+                </p>
+
+                <div class="actions" style="margin-top:16px;">
+                    <a class="btn primary" href="/leaderboard/">View leaderboard</a>
+                    <a class="btn" href="/downloads/">Download</a>
+                    <a class="btn" href="/">Back to home</a>
+                </div>
+
+                <div class="about-badges">
+                    <span class="pill">Nostalgia-first</span>
+                    <span class="pill">Desktop client</span>
+                    <span class="pill">Online leaderboard</span>
+                    <span class="pill">Modern web UI</span>
+                </div>
+            </div>
+
+            <div class="about-hero-right glass">
+                <div class="about-minihead">
+                    <div class="muted tiny">Built by</div>
+                </div>
+
+                <div class="about-me">
+                    <div class="about-avatar" aria-hidden="true">
+                        <span>YS</span>
+                    </div>
+
+                    <div class="about-me-text">
+                        <div class="about-me-name">Your Name</div>
+                        <div class="muted">Software developer • backend + UI</div>
+                    </div>
+                </div>
+
+                <div class="about-me-links">
+                    <a class="btn primary" href="https://YOUR_PORTFOLIO" target="_blank" rel="noopener">Portfolio</a>
+                    <a class="btn" href="https://github.com/YOUR_GITHUB" target="_blank" rel="noopener">GitHub</a>
+                </div>
+
+                <div class="about-mini muted tiny">
+                    If you’re a recruiter: this project is designed to show real-world engineering — not just gameplay.
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- INSPIRATION -->
+    <section class="section container">
+        <div class="section-head reveal up">
+            <h2 class="h2">Inspiration</h2>
+            <p class="muted">
+                Snake worked because it was instantly understandable — and brutally addictive once you started chasing your own best score.
+            </p>
+        </div>
+
+        <div class="about-grid-3">
+            <article class="glass about-storycard reveal up">
+                <div class="about-storyicon">📟</div>
+                <h3 class="h3">Nokia-era simplicity</h3>
+                <p class="muted">
+                    Simple controls, fast resets, and a tight feedback loop. No tutorials needed.
+                </p>
+            </article>
+
+            <article class="glass about-storycard reveal up">
+                <div class="about-storyicon">🔁</div>
+                <h3 class="h3">“One more run” loop</h3>
+                <p class="muted">
+                    Each run is short, which makes improvement feel achievable — and keeps you playing.
+                </p>
+            </article>
+
+            <article class="glass about-storycard reveal up">
+                <div class="about-storyicon">🏁</div>
+                <h3 class="h3">Competition</h3>
+                <p class="muted">
+                    The original didn’t need online play — but leaderboards make it instantly competitive.
+                </p>
+            </article>
+        </div>
+    </section>
+
+    <!-- WHAT’S DIFFERENT NOW -->
+    <section class="section container">
+        <div class="section-head reveal up">
+            <h2 class="h2">What’s new in this version</h2>
+            <p class="muted">
+                Same nostalgic feel, but with modern engineering behind it.
+            </p>
+        </div>
+
+        <div class="about-grid-2">
+            <article class="glass about-feature reveal up">
+                <h3 class="h3">Desktop + leaderboard-backed runs</h3>
+                <p class="muted">
+                    The main experience is a desktop client. Finishing a run can submit to an online leaderboard.
+                </p>
+                <div class="about-feature-pills">
+                    <span class="pill">Java Swing client</span>
+                    <span class="pill">Session-protected submits</span>
+                </div>
+            </article>
+
+            <article class="glass about-feature reveal up">
+                <h3 class="h3">A real backend service</h3>
+                <p class="muted">
+                    Leaderboards are served by a deployed Spring Boot API with clean contracts, pagination, and validation.
+                </p>
+                <div class="about-feature-pills">
+                    <span class="pill">Spring Boot</span>
+                    <span class="pill">REST DTOs</span>
+                    <span class="pill">Pagination</span>
+                </div>
+            </article>
+        </div>
+    </section>
+
+    <!-- SCREENSHOTS (placeholders) -->
+    <section class="section container">
+        <div class="section-head reveal up">
+            <h2 class="h2">Screenshots</h2>
+            <p class="muted">
+                Add real screenshots later (desktop menu, gameplay, leaderboard, etc.). The layout is ready.
+            </p>
+        </div>
+
+        <div class="about-shots reveal up">
+            <div class="about-shot ph1" aria-label="Placeholder screenshot 1"></div>
+            <div class="about-shot ph2" aria-label="Placeholder screenshot 2"></div>
+            <div class="about-shot ph3" aria-label="Placeholder screenshot 3"></div>
+            <div class="about-shot ph4" aria-label="Placeholder screenshot 4"></div>
+        </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="section container">
+        <div class="cta glass reveal up">
+            <div class="cta-left">
+                <h2 class="h2">Play it</h2>
+                <p class="muted">
+                    Download the desktop version for the full experience, or browse the leaderboard on the web.
+                </p>
+                <div class="actions">
+                    <a class="btn primary" href="/downloads/">Download</a>
+                    <a class="btn" href="/leaderboard/">Leaderboard</a>
+                    <a class="btn" href="https://YOUR_PORTFOLIO" target="_blank" rel="noopener">Portfolio</a>
+                </div>
+            </div>
+
+            <div class="cta-right">
+                <div class="muted tiny">
+                    Source: <a href="https://github.com/YOUR_GITHUB" target="_blank" rel="noopener">GitHub</a><br/>
+                    Built by: <span class="grad">Your Name</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="sitefooter">
+        <div class="container footgrid">
+            <div class="footbrand">
+                <div class="footlogo">
+          <span class="brand-icon" aria-hidden="true">
+            <span class="dot"></span>
+            <span class="bar"></span>
+          </span>
+                    <span class="brand-name">Snake</span>
+                </div>
+                <p class="muted">
+                    A modern Snake project with a desktop client, a real backend, and online leaderboards.
+                </p>
+            </div>
+
+            <div class="footcol">
+                <h4>Project</h4>
+                <a href="/downloads/">Download</a>
+                <a href="/leaderboard/">Leaderboard</a>
+                <a href="/">Home</a>
+            </div>
+
+            <div class="footcol">
+                <h4>Info</h4>
+                <a href="/developers/">For Developers</a>
+                <a href="/about/">About</a>
+            </div>
+
+            <div class="footcol">
+                <h4>Links</h4>
+                <a href="https://YOUR_PORTFOLIO" target="_blank" rel="noopener">Portfolio</a>
+                <a href="https://github.com/YOUR_GITHUB" target="_blank" rel="noopener">GitHub</a>
+            </div>
+        </div>
+
+        <div class="container footbottom">
+            <span class="muted tiny">© <span id="year"></span> Your Name</span>
+        </div>
+    </footer>
 </main>
-</body></html>
+
+<script src="/assets/site.js"></script>
+</body>
+</html>

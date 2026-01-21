@@ -1,24 +1,282 @@
-<!doctype html><html lang="en"><head>
-    <meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Download — Snake</title>
-    <link rel="stylesheet" href="/assets/styles.css"/>
-</head><body>
+    <meta name="description" content="Download the Snake desktop game (Windows + cross-platform JAR). View releases and run instructions." />
+    <link rel="stylesheet" href="/assets/styles.css" />
+</head>
+
+<body>
 <div class="bg"></div>
+
+<!-- NAV -->
 <header class="navwrap">
-    <div class="nav container glass">
-        <a class="brand" href="/"><span class="brand-dot"></span><span>Snake</span></a>
-        <nav class="navlinks"><a class="btn ghost" href="/">Home</a></nav>
-        <div class="navcta"><a class="btn" href="/leaderboard/">Leaderboard</a></div>
-    </div>
-</header>
-<main class="container section">
-    <div class="glass" style="padding:18px">
-        <h1 class="h2">Download</h1>
-        <p class="muted">Coming soon. We’ll link to GitHub Releases or host installers here.</p>
-        <div class="actions">
-            <a class="btn primary" href="#" onclick="return false;">Download (soon)</a>
-            <a class="btn" href="/">Back</a>
+    <div class="container navbar">
+        <div class="navpill glass">
+            <a class="brand" href="/" aria-label="Snake home">
+        <span class="brand-icon" aria-hidden="true">
+          <span class="dot"></span>
+          <span class="bar"></span>
+        </span>
+                <span class="brand-name">Snake</span>
+            </a>
+
+            <nav class="navlinks" aria-label="Primary">
+                <a class="active" href="/downloads/">Download</a>
+                <a href="/leaderboard/">Leaderboard</a>
+                <a href="/developers/">For Developers</a>
+                <a href="/about/">About</a>
+            </nav>
+
+            <button class="iconbtn" id="menuBtn" aria-label="Open menu" aria-expanded="false">☰</button>
+        </div>
+
+        <div class="navctas">
+            <a class="btn" href="/leaderboard/">Leaderboard</a>
+            <a class="btn primary" href="https://github.com/YOUR_GITHUB" target="_blank" rel="noopener">GitHub</a>
         </div>
     </div>
+
+    <div class="container mobilemenu glass" id="mobileMenu" hidden>
+        <a href="/downloads/">Download</a>
+        <a href="/leaderboard/">Leaderboard</a>
+        <a href="/developers/">For Developers</a>
+        <a href="/about/">About</a>
+        <a href="/">Home</a>
+        <a href="https://github.com/YOUR_GITHUB" target="_blank" rel="noopener">GitHub</a>
+    </div>
+</header>
+
+<main>
+    <!-- HERO -->
+    <section class="section container">
+        <div class="section-head reveal up">
+            <h1 class="h2">Download</h1>
+            <p class="muted">
+                Get the desktop Snake client. The game submits scores to the online leaderboard backed by the deployed Spring Boot API.
+            </p>
+        </div>
+
+        <div class="dl-top reveal up">
+            <div class="dl-note glass">
+                <div class="dl-note-title">Latest build</div>
+                <p class="muted" style="margin:8px 0 0;">
+                    Recommended: download from GitHub Releases for the newest version.
+                </p>
+                <div class="actions" style="margin-top:12px;">
+                    <a class="btn primary" href="https://github.com/YOUR_GITHUB/releases" target="_blank" rel="noopener">
+                        GitHub Releases
+                    </a>
+                    <a class="btn" href="/leaderboard/">View leaderboard</a>
+                </div>
+            </div>
+
+            <div class="dl-meta glass">
+                <div class="dl-meta-row">
+                    <span class="muted tiny">Platform</span>
+                    <strong>Windows + Cross-platform</strong>
+                </div>
+                <div class="dl-meta-row">
+                    <span class="muted tiny">Tech</span>
+                    <strong>Java Swing client</strong>
+                </div>
+                <div class="dl-meta-row">
+                    <span class="muted tiny">Online</span>
+                    <strong>Leaderboard submissions</strong>
+                </div>
+                <div class="dl-meta-row">
+                    <span class="muted tiny">Status</span>
+                    <strong>Actively improving</strong>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- DOWNLOAD CARDS -->
+    <section class="section container">
+        <div class="section-head reveal up">
+            <h2 class="h2">Packages</h2>
+            <p class="muted">
+                Choose a package based on your platform. You can replace these links later with your real release assets.
+            </p>
+        </div>
+
+        <div class="dl-grid">
+            <article class="glass dl-card reveal up">
+                <div class="dl-icon">🪟</div>
+                <h3 class="h3">Windows (EXE)</h3>
+                <p class="muted">Best experience for Windows users.</p>
+
+                <div class="dl-pills">
+                    <span class="pill">Installer</span>
+                    <span class="pill">Auto update (optional)</span>
+                </div>
+
+                <div class="dl-actions">
+                    <a class="btn primary" href="#" aria-disabled="true" onclick="return false;">Download EXE</a>
+                    <a class="btn" href="https://github.com/YOUR_GITHUB/releases" target="_blank" rel="noopener">Releases</a>
+                </div>
+
+                <p class="dl-foot muted tiny">
+                    Coming soon / replace with a direct GitHub release asset link.
+                </p>
+            </article>
+
+            <article class="glass dl-card reveal up">
+                <div class="dl-icon">☕</div>
+                <h3 class="h3">Cross-platform (JAR)</h3>
+                <p class="muted">Run on any OS with Java installed.</p>
+
+                <div class="dl-pills">
+                    <span class="pill">Windows</span>
+                    <span class="pill">macOS</span>
+                    <span class="pill">Linux</span>
+                </div>
+
+                <div class="dl-actions">
+                    <a class="btn primary" href="#" aria-disabled="true" onclick="return false;">Download JAR</a>
+                    <a class="btn" href="https://github.com/YOUR_GITHUB/releases" target="_blank" rel="noopener">Releases</a>
+                </div>
+
+                <p class="dl-foot muted tiny">
+                    Replace with <code>snake-client.jar</code> release asset.
+                </p>
+            </article>
+
+            <article class="glass dl-card reveal up">
+                <div class="dl-icon">🧩</div>
+                <h3 class="h3">Source Code</h3>
+                <p class="muted">Want to build it yourself or review the architecture?</p>
+
+                <div class="dl-pills">
+                    <span class="pill">Backend</span>
+                    <span class="pill">Desktop client</span>
+                    <span class="pill">Website</span>
+                </div>
+
+                <div class="dl-actions">
+                    <a class="btn primary" href="https://github.com/YOUR_GITHUB" target="_blank" rel="noopener">Open GitHub</a>
+                    <a class="btn" href="/developers/">Developer docs</a>
+                </div>
+
+                <p class="dl-foot muted tiny">
+                    Includes API + client integration details.
+                </p>
+            </article>
+        </div>
+    </section>
+
+    <!-- HOW TO RUN -->
+    <section class="section container">
+        <div class="section-head reveal up">
+            <h2 class="h2">How to run</h2>
+            <p class="muted">
+                Quick start instructions for the desktop client. Update these once your packaging is finalized.
+            </p>
+        </div>
+
+        <div class="dl-grid-2">
+            <article class="glass dl-card reveal up">
+                <h3 class="h3">Run the JAR</h3>
+                <p class="muted">Requires Java installed (JRE/JDK).</p>
+
+                <div class="dev-code">
+                    <pre><code>java -jar snake-client.jar</code></pre>
+                </div>
+
+                <ul class="dev-list">
+                    <li>Open the game</li>
+                    <li>Play a run</li>
+                    <li>View your score on the online leaderboard</li>
+                </ul>
+            </article>
+
+            <article class="glass dl-card reveal up">
+                <h3 class="h3">Troubleshooting</h3>
+                <ul class="dev-list">
+                    <li><strong>No Java?</strong> Install a recent JDK (17+ recommended).</li>
+                    <li><strong>Offline?</strong> Leaderboard pages still load, but submissions may fail.</li>
+                    <li><strong>Firewall?</strong> Allow outbound HTTPS for API calls.</li>
+                </ul>
+
+                <div class="dev-callout">
+                    <div class="dev-callout-title">Support</div>
+                    <div class="muted tiny">
+                        Issues and bug reports: <a href="https://github.com/YOUR_GITHUB/issues" target="_blank" rel="noopener">GitHub Issues</a>
+                    </div>
+                </div>
+            </article>
+        </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="section container">
+        <div class="cta glass reveal up">
+            <div class="cta-left">
+                <h2 class="h2">Ready to compete?</h2>
+                <p class="muted">
+                    Download the client and aim for the top spot. Filters include map, mode, and difficulty.
+                </p>
+                <div class="actions">
+                    <a class="btn primary" href="/leaderboard/">Leaderboard</a>
+                    <a class="btn" href="/">Back to home</a>
+                    <a class="btn" href="https://github.com/YOUR_GITHUB/releases" target="_blank" rel="noopener">Releases</a>
+                </div>
+            </div>
+
+            <div class="cta-right">
+                <div class="muted tiny">
+                    Desktop: Java Swing • Backend: Spring Boot<br/>
+                    Online leaderboard + web UI (same API).
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="sitefooter">
+        <div class="container footgrid">
+            <div class="footbrand">
+                <div class="footlogo">
+          <span class="brand-icon" aria-hidden="true">
+            <span class="dot"></span>
+            <span class="bar"></span>
+          </span>
+                    <span class="brand-name">Snake</span>
+                </div>
+                <p class="muted">
+                    A polished Snake project with a real backend, leaderboards, and a clean web presence.
+                </p>
+            </div>
+
+            <div class="footcol">
+                <h4>Project</h4>
+                <a href="/downloads/">Download</a>
+                <a href="/leaderboard/">Leaderboard</a>
+                <a href="/">Home</a>
+            </div>
+
+            <div class="footcol">
+                <h4>Info</h4>
+                <a href="/developers/">For Developers</a>
+                <a href="/about/">About</a>
+            </div>
+
+            <div class="footcol">
+                <h4>Links</h4>
+                <a href="https://github.com/YOUR_GITHUB" target="_blank" rel="noopener">GitHub</a>
+                <a href="https://github.com/YOUR_GITHUB/releases" target="_blank" rel="noopener">Releases</a>
+            </div>
+        </div>
+
+        <div class="container footbottom">
+            <span class="muted tiny">© <span id="year"></span> Your Name</span>
+        </div>
+    </footer>
 </main>
-</body></html>
+
+<script src="/assets/site.js"></script>
+</body>
+</html>

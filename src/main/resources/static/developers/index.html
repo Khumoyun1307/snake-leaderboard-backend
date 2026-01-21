@@ -1,24 +1,409 @@
-<!doctype html><html lang="en"><head>
-    <meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
-    <title>Download — Snake</title>
-    <link rel="stylesheet" href="/assets/styles.css"/>
-</head><body>
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>For Developers — Snake</title>
+    <meta name="description" content="Architecture, API docs, deployment notes, and engineering highlights for the Snake Leaderboard project." />
+    <link rel="stylesheet" href="/assets/styles.css" />
+</head>
+
+<body>
 <div class="bg"></div>
+
+<!-- NAV -->
 <header class="navwrap">
-    <div class="nav container glass">
-        <a class="brand" href="/"><span class="brand-dot"></span><span>Snake</span></a>
-        <nav class="navlinks"><a class="btn ghost" href="/">Home</a></nav>
-        <div class="navcta"><a class="btn" href="/leaderboard/">Leaderboard</a></div>
-    </div>
-</header>
-<main class="container section">
-    <div class="glass" style="padding:18px">
-        <h1 class="h2">Download</h1>
-        <p class="muted">Coming soon. We’ll link to GitHub Releases or host installers here.</p>
-        <div class="actions">
-            <a class="btn primary" href="#" onclick="return false;">Download (soon)</a>
-            <a class="btn" href="/">Back</a>
+    <div class="container navbar">
+        <div class="navpill glass">
+            <a class="brand" href="/" aria-label="Snake home">
+        <span class="brand-icon" aria-hidden="true">
+          <span class="dot"></span>
+          <span class="bar"></span>
+        </span>
+                <span class="brand-name">Snake</span>
+            </a>
+
+            <nav class="navlinks" aria-label="Primary">
+                <a href="/downloads/">Download</a>
+                <a href="/leaderboard/">Leaderboard</a>
+                <a class="active" href="/developers/">For Developers</a>
+                <a href="/about/">About</a>
+            </nav>
+
+            <button class="iconbtn" id="menuBtn" aria-label="Open menu" aria-expanded="false">☰</button>
+        </div>
+
+        <div class="navctas">
+            <a class="btn" href="/downloads/">Download</a>
+            <a class="btn primary" href="https://github.com/YOUR_GITHUB" target="_blank" rel="noopener">GitHub</a>
         </div>
     </div>
+
+    <div class="container mobilemenu glass" id="mobileMenu" hidden>
+        <a href="/downloads/">Download</a>
+        <a href="/leaderboard/">Leaderboard</a>
+        <a href="/developers/">For Developers</a>
+        <a href="/about/">About</a>
+        <a href="/">Home</a>
+        <a href="https://github.com/YOUR_GITHUB" target="_blank" rel="noopener">GitHub</a>
+    </div>
+</header>
+
+<main>
+    <!-- HERO -->
+    <section class="section container">
+        <div class="dev-hero reveal up">
+            <div class="dev-hero-left">
+                <h1 class="title" style="margin-bottom:10px;">
+                    Built like a <span class="grad">real product</span>.
+                </h1>
+                <p class="subtitle">
+                    Snake is a desktop game (Java Swing) backed by a deployed Spring Boot service.
+                    Both the desktop app and this website consume the same REST API to display online leaderboards.
+                </p>
+
+                <div class="actions" style="margin-top:16px;">
+                    <a class="btn primary" href="/leaderboard/">View leaderboard</a>
+                    <a class="btn" href="/downloads/">Download</a>
+                    <a class="btn" href="https://github.com/YOUR_GITHUB" target="_blank" rel="noopener">GitHub</a>
+                </div>
+
+                <div class="dev-badges">
+                    <span class="pill">Spring Boot</span>
+                    <span class="pill">REST API</span>
+                    <span class="pill">Java Swing Client</span>
+                    <span class="pill">Validation</span>
+                    <span class="pill">Sessions</span>
+                    <span class="pill">Pagination</span>
+                </div>
+            </div>
+
+            <div class="dev-hero-right glass">
+                <div class="dev-minihead">
+                    <div class="muted tiny">Quick summary</div>
+                </div>
+
+                <div class="dev-kpi">
+                    <div class="dev-kpi-item">
+                        <div class="muted tiny">Clients</div>
+                        <div class="dev-kpi-val">Desktop + Web</div>
+                    </div>
+                    <div class="dev-kpi-item">
+                        <div class="muted tiny">Backend</div>
+                        <div class="dev-kpi-val">Spring Boot API</div>
+                    </div>
+                    <div class="dev-kpi-item">
+                        <div class="muted tiny">Leaderboard</div>
+                        <div class="dev-kpi-val">Map / Mode / Diff</div>
+                    </div>
+                    <div class="dev-kpi-item">
+                        <div class="muted tiny">Deploy</div>
+                        <div class="dev-kpi-val">Single origin</div>
+                    </div>
+                </div>
+
+                <div class="dev-minifoot muted tiny">
+                    Replace the GitHub link + deployment line with your real URLs when ready.
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- RECRUITER-FRIENDLY HIGHLIGHTS -->
+    <section class="section container">
+        <div class="section-head reveal up">
+            <h2 class="h2">Engineering highlights</h2>
+            <p class="muted">
+                This project was designed to be production-style: clear API contracts, input validation, and an interface that stays stable across multiple clients.
+            </p>
+        </div>
+
+        <div class="dev-grid-3">
+            <article class="card glass reveal up">
+                <div class="cardicon">🏗️</div>
+                <h3 class="h3">Clean architecture</h3>
+                <p class="muted">
+                    Controller → service → persistence layering with DTO-based responses for predictable API output.
+                </p>
+                <p class="cardpoint">Designed so new modes/maps can be added without breaking clients.</p>
+            </article>
+
+            <article class="card glass reveal up">
+                <div class="cardicon">🔐</div>
+                <h3 class="h3">Secure submissions</h3>
+                <p class="muted">
+                    Score submission requires a short-lived session token and a validated request body.
+                </p>
+                <p class="cardpoint">Reduces abuse without forcing account creation.</p>
+            </article>
+
+            <article class="card glass reveal up">
+                <div class="cardicon">⚡</div>
+                <h3 class="h3">Performance & UX</h3>
+                <p class="muted">
+                    Paginated leaderboard reads with fast filtering options on the client UI.
+                </p>
+                <p class="cardpoint">Same endpoint serves both desktop and web.</p>
+            </article>
+        </div>
+    </section>
+
+    <!-- ARCHITECTURE -->
+    <section class="section container">
+        <div class="section-head reveal up">
+            <h2 class="h2">System architecture</h2>
+            <p class="muted">
+                Single deployment: Spring Boot serves the REST API and static website. Desktop client consumes the same API.
+            </p>
+        </div>
+
+        <article class="glass dev-card reveal up">
+            <div class="dev-diagram">
+                <div class="dev-node glass">
+                    <div class="dev-node-title">Desktop Client</div>
+                    <div class="muted tiny">Java Swing</div>
+                    <div class="muted tiny">Fetches leaderboard + submits scores</div>
+                </div>
+
+                <div class="dev-arrow">→</div>
+
+                <div class="dev-node glass">
+                    <div class="dev-node-title">Backend</div>
+                    <div class="muted tiny">Spring Boot REST API</div>
+                    <div class="muted tiny">Validation • Sessions • Pagination</div>
+                </div>
+
+                <div class="dev-arrow">→</div>
+
+                <div class="dev-node glass">
+                    <div class="dev-node-title">Data Store</div>
+                    <div class="muted tiny">Scores + metadata</div>
+                    <div class="muted tiny">Rank, mode, mapId, difficulty</div>
+                </div>
+
+                <div class="dev-arrow">→</div>
+
+                <div class="dev-node glass">
+                    <div class="dev-node-title">Website</div>
+                    <div class="muted tiny">Static HTML/CSS/JS</div>
+                    <div class="muted tiny">Reads leaderboard + product pages</div>
+                </div>
+            </div>
+
+            <div class="dev-tags">
+                <span class="pill">Single origin hosting</span>
+                <span class="pill">Stable API contract</span>
+                <span class="pill">Multiple clients supported</span>
+            </div>
+        </article>
+    </section>
+
+    <!-- TECH STACK -->
+    <section class="section container">
+        <div class="section-head reveal up">
+            <h2 class="h2">Tech stack</h2>
+            <p class="muted">
+                Replace or refine any of these items to match your final implementation.
+            </p>
+        </div>
+
+        <div class="dev-grid-3">
+            <article class="glass dev-stack reveal up">
+                <h3 class="h3">Backend</h3>
+                <ul class="dev-list">
+                    <li>Java + Spring Boot</li>
+                    <li>REST controllers + DTOs</li>
+                    <li>Validation (Jakarta Validation)</li>
+                    <li>Session + token headers for writes</li>
+                </ul>
+            </article>
+
+            <article class="glass dev-stack reveal up">
+                <h3 class="h3">Frontend</h3>
+                <ul class="dev-list">
+                    <li>Static HTML/CSS/JS served by Spring Boot</li>
+                    <li>Responsive layout + glass UI</li>
+                    <li>Leaderboard page w/ client-side search</li>
+                </ul>
+            </article>
+
+            <article class="glass dev-stack reveal up">
+                <h3 class="h3">Deployment</h3>
+                <ul class="dev-list">
+                    <li>Deployed backend service (public API)</li>
+                    <li>Health endpoint for monitoring</li>
+                    <li>Single-origin hosting for web + API</li>
+                </ul>
+            </article>
+        </div>
+    </section>
+
+    <!-- API REFERENCE -->
+    <section class="section container">
+        <div class="section-head reveal up">
+            <h2 class="h2">API reference</h2>
+            <p class="muted">
+                Endpoints consumed by the desktop client and the web UI.
+            </p>
+        </div>
+
+        <div class="dev-grid-2">
+            <article class="glass dev-card reveal up">
+                <div class="dev-endpoint">
+                    <span class="pill dev-method">GET</span>
+                    <code>/api/leaderboard</code>
+                </div>
+
+                <p class="muted">
+                    Fetch leaderboard entries filtered by <strong>mapId</strong>, <strong>mode</strong>, and optional <strong>difficulty</strong>.
+                </p>
+
+                <div class="dev-kv">
+                    <div><span class="muted">Query</span></div>
+                    <div>
+                        <code>mapId</code>, <code>mode</code>, <code>difficulty</code> (optional),
+                        <code>limit</code>, <code>offset</code>
+                    </div>
+                </div>
+
+                <div class="dev-code">
+                    <pre><code>GET /api/leaderboard?mapId=0&amp;mode=STANDARD&amp;limit=25&amp;offset=0</code></pre>
+                </div>
+
+                <div class="dev-callout">
+                    <div class="dev-callout-title">Web behavior</div>
+                    <div class="muted tiny">
+                        The website filter logic matches the desktop client (mode controls map behavior; “ANY” difficulty is not sent).
+                    </div>
+                </div>
+            </article>
+
+            <article class="glass dev-card reveal up">
+                <div class="dev-endpoint">
+                    <span class="pill dev-method">POST</span>
+                    <code>/api/session</code>
+                </div>
+
+                <p class="muted">
+                    Start a short-lived session used to authenticate score submissions.
+                </p>
+
+                <div class="dev-code">
+                    <pre><code>POST /api/session</code></pre>
+                </div>
+
+                <div class="dev-callout">
+                    <div class="dev-callout-title">Headers for submit</div>
+                    <div class="muted tiny">
+                        Use <code>X-Session-Id</code> and <code>X-Session-Token</code> returned by this endpoint.
+                    </div>
+                </div>
+            </article>
+
+            <article class="glass dev-card reveal up">
+                <div class="dev-endpoint">
+                    <span class="pill dev-method">POST</span>
+                    <code>/api/scores</code>
+                </div>
+
+                <p class="muted">
+                    Submit a score. Requires session headers and validated JSON request body.
+                </p>
+
+                <div class="dev-code">
+<pre><code>POST /api/scores
+X-Session-Id: &lt;uuid&gt;
+X-Session-Token: &lt;token&gt;</code></pre>
+                </div>
+
+                <div class="dev-callout">
+                    <div class="dev-callout-title">Validation</div>
+                    <div class="muted tiny">
+                        Player name pattern + bounds checks keep data clean and reduce abuse.
+                    </div>
+                </div>
+            </article>
+
+            <article class="glass dev-card reveal up">
+                <div class="dev-endpoint">
+                    <span class="pill dev-method">GET</span>
+                    <code>/health</code>
+                </div>
+
+                <p class="muted">Health check endpoint for uptime monitoring and deploy verification.</p>
+
+                <div class="dev-code">
+                    <pre><code>GET /health</code></pre>
+                </div>
+            </article>
+        </div>
+    </section>
+
+    <!-- LINKS / CTA (product-style) -->
+    <section class="section container">
+        <div class="cta glass reveal up">
+            <div class="cta-left">
+                <h2 class="h2">Links</h2>
+                <p class="muted">
+                    Try the leaderboard, download the desktop build, or review the source code.
+                </p>
+                <div class="actions">
+                    <a class="btn" href="/leaderboard/">Leaderboard</a>
+                    <a class="btn" href="/downloads/">Download</a>
+                    <a class="btn primary" href="https://github.com/YOUR_GITHUB" target="_blank" rel="noopener">GitHub</a>
+                </div>
+            </div>
+
+            <div class="cta-right">
+                <div class="muted tiny">
+                    Deployed: <span class="grad">YOUR_DOMAIN_HERE</span><br/>
+                    Repository: <span class="grad">YOUR_GITHUB_HERE</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="sitefooter">
+        <div class="container footgrid">
+            <div class="footbrand">
+                <div class="footlogo">
+          <span class="brand-icon" aria-hidden="true">
+            <span class="dot"></span>
+            <span class="bar"></span>
+          </span>
+                    <span class="brand-name">Snake</span>
+                </div>
+                <p class="muted">
+                    Online leaderboards + a modern web presence, backed by a Spring Boot service.
+                </p>
+            </div>
+
+            <div class="footcol">
+                <h4>Project</h4>
+                <a href="/downloads/">Download</a>
+                <a href="/leaderboard/">Leaderboard</a>
+                <a href="/">Home</a>
+            </div>
+
+            <div class="footcol">
+                <h4>Info</h4>
+                <a href="/developers/">For Developers</a>
+                <a href="/about/">About</a>
+            </div>
+
+            <div class="footcol">
+                <h4>Links</h4>
+                <a href="https://github.com/YOUR_GITHUB" target="_blank" rel="noopener">GitHub</a>
+            </div>
+        </div>
+
+        <div class="container footbottom">
+            <span class="muted tiny">© <span id="year"></span> Your Name</span>
+        </div>
+    </footer>
 </main>
-</body></html>
+
+<script src="/assets/site.js"></script>
+</body>
+</html>

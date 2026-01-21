@@ -3,243 +3,279 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Snake — Nostalgia Meets Competition</title>
-    <meta name="description" content="A modern Snake game with online leaderboards. Download the desktop app, compete, and explore the tech behind it." />
+    <title>Snake — Nostalgia, Upgraded</title>
+    <meta name="description" content="A modern Snake game with a desktop app + online leaderboard. View the leaderboard and try the web demo." />
     <link rel="stylesheet" href="/assets/styles.css" />
 </head>
 
 <body>
-<!-- Top gradient/noise backdrop -->
 <div class="bg"></div>
 
 <!-- NAV -->
 <header class="navwrap">
-    <div class="nav container glass">
-        <a class="brand" href="/">
-            <span class="brand-dot"></span>
-            <span>Snake</span>
-        </a>
+    <div class="container navbar">
+        <div class="navpill glass">
+            <a class="brand" href="/" aria-label="Snake home">
+          <span class="brand-icon" aria-hidden="true">
+            <span class="dot"></span>
+            <span class="bar"></span>
+          </span>
+                <span class="brand-name">Snake</span>
+            </a>
 
-        <nav class="navlinks" aria-label="Primary">
-            <a href="/downloads/">Download</a>
-            <a href="/leaderboard/">Leaderboard</a>
-            <a href="/developers/">For Developers</a>
-            <a href="/about/">About</a>
-        </nav>
+            <nav class="navlinks" aria-label="Primary">
+                <a href="/downloads/">Download</a>
+                <a href="/leaderboard/">Leaderboard</a>
+                <a href="/developers/">For Developers</a>
+                <a href="/about/">About</a>
+            </nav>
 
-        <div class="navcta">
-            <a class="btn ghost" href="/leaderboard/">View leaderboard</a>
-            <a class="btn primary" href="/downloads/">Download</a>
             <button class="iconbtn" id="menuBtn" aria-label="Open menu" aria-expanded="false">☰</button>
+        </div>
+
+        <div class="navctas">
+            <a class="btn" href="#demo" id="tryDemoTop">Try demo</a>
+            <a class="btn primary" href="/downloads/">Download</a>
         </div>
     </div>
 
-    <!-- mobile menu -->
-    <div class="mobilemenu container glass" id="mobileMenu" hidden>
+    <div class="container mobilemenu glass" id="mobileMenu" hidden>
         <a href="/downloads/">Download</a>
         <a href="/leaderboard/">Leaderboard</a>
         <a href="/developers/">For Developers</a>
         <a href="/about/">About</a>
+        <a href="#demo">Try demo</a>
     </div>
 </header>
 
 <main>
     <!-- HERO -->
-    <section class="section hero container">
+    <section class="section screen hero container">
         <div class="hero-left reveal up">
-            <p class="kicker">Desktop game • Online leaderboard • Clean engineering</p>
-
             <h1 class="title">
                 Remember that childhood <span class="grad">Snake</span> feeling?
             </h1>
 
             <p class="subtitle">
-                Play the desktop version, submit your score, and climb global leaderboards by map, mode, and difficulty.
-                A polished project built with Spring Boot + a Java Swing client.
+                Play the desktop version, compete on leaderboards, and explore the engineering behind it.
+                Built with a Spring Boot backend and a Java Swing client.
             </p>
 
             <div class="actions">
                 <a class="btn primary" href="/downloads/">Download</a>
-                <a class="btn" href="/leaderboard/">Leaderboard</a>
-                <a class="btn ghost" href="#story">What is this?</a>
-            </div>
-
-            <div class="chips">
-                <span class="chip">Spring Boot API</span>
-                <span class="chip">Session-protected writes</span>
-                <span class="chip">Rate-limited</span>
-                <span class="chip">Desktop client (Swing)</span>
+                <a class="btn" href="/leaderboard/">View leaderboard</a>
             </div>
         </div>
 
-        <div class="hero-right reveal left">
+        <div class="hero-right reveal left reveal-delay-1">
             <div class="device glass">
-                <div class="device-top">
-                    <span class="pill">Live Demo (visual)</span>
-                    <div class="device-dots">
-                        <span></span><span></span><span></span>
-                    </div>
-                </div>
-
-                <!-- Snake canvas animation (stylized gameplay) -->
-                <canvas id="snakeCanvas" width="820" height="520" aria-label="Snake gameplay animation"></canvas>
-
-                <div class="device-bottom">
-                    <div class="tiny muted">
-                        Tip: Later you can replace this with a GIF/screenshot/video.
-                    </div>
-                    <a class="link" href="/leaderboard/">See real scores →</a>
-                </div>
+                <canvas id="snakeCanvas" width="820" height="520" aria-label="Snake animation"></canvas>
             </div>
         </div>
     </section>
 
-    <!-- STORY + SLIDER -->
-    <section id="story" class="section container">
+    <!-- STORY -->
+    <section id="story" class="section screen container">
         <div class="section-head reveal up">
             <h2 class="h2">Nostalgia, upgraded</h2>
             <p class="muted">
                 A classic arcade loop: quick restarts, “one more run”, and that moment you beat your personal best.
-                Now with online leaderboards and a clean web presence.
+                Now paired with a real backend + leaderboard — and a modern landing page.
             </p>
         </div>
 
-        <div class="story-grid">
-            <div class="story-text glass reveal up">
-                <h3 class="h3">A small game with “real product” polish</h3>
-                <p class="muted">
-                    The desktop client submits scores to a deployed Spring Boot backend.
-                    The same backend serves this website so everything stays consistent and production-like.
-                </p>
-                <div class="actions">
-                    <a class="btn" href="/downloads/">Download</a>
-                    <a class="btn ghost" href="/developers/">See tech details</a>
+        <div class="shots-row reveal up">
+            <button class="shots-btn" id="shotsPrev" aria-label="Previous screenshots">←</button>
+
+            <div class="shots-viewport" id="shotsViewport">
+                <div class="shots-track" id="shotsTrack">
+                    <div class="shot ph1"></div>
+                    <div class="shot ph2"></div>
+                    <div class="shot ph3"></div>
+                    <div class="shot ph4"></div>
                 </div>
             </div>
 
-            <div class="carousel glass reveal up" aria-label="Game screenshots carousel">
-                <div class="carousel-top">
-                    <h3 class="h3">Game screenshots</h3>
-                    <div class="carousel-controls">
-                        <button class="iconbtn" id="prevShot" aria-label="Previous screenshot">←</button>
-                        <button class="iconbtn" id="nextShot" aria-label="Next screenshot">→</button>
-                    </div>
-                </div>
-
-                <div class="shots" id="shots">
-                    <!-- Placeholder slides (replace with real images later) -->
-                    <div class="shot ph1">
-                        <div class="shotlabel">Screenshot 1</div>
-                    </div>
-                    <div class="shot ph2">
-                        <div class="shotlabel">Screenshot 2</div>
-                    </div>
-                    <div class="shot ph3">
-                        <div class="shotlabel">Screenshot 3</div>
-                    </div>
-                    <div class="shot ph4">
-                        <div class="shotlabel">Screenshot 4</div>
-                    </div>
-                </div>
-
-                <div class="dots" id="shotDots" aria-hidden="true"></div>
-                <p class="tiny muted">
-                    Replace placeholders with images in <code>/assets/img</code> anytime.
-                </p>
-            </div>
+            <button class="shots-btn" id="shotsNext" aria-label="Next screenshots">→</button>
         </div>
     </section>
 
-    <!-- FEATURES CARDS -->
-    <section class="section container">
+    <!-- FEATURES -->
+    <section class="section screen container">
         <div class="section-head reveal up">
             <h2 class="h2">Features</h2>
-            <p class="muted">Make it feel like a real game product: clear feature set, clean UI, and reliable backend.</p>
+            <p class="muted">A small project built like a real product: clean APIs, clean UI, and competitive gameplay.</p>
         </div>
 
         <div class="cards">
             <article class="card glass reveal up">
                 <div class="cardicon">🏆</div>
                 <h3 class="h3">Online leaderboards</h3>
-                <p class="muted">Ranked lists by map, mode, and difficulty. Pagination supported.</p>
-            </article>
-
-            <article class="card glass reveal up">
-                <div class="cardicon">🧠</div>
-                <h3 class="h3">Multiple modes</h3>
-                <p class="muted">Different play styles to keep runs fresh and competitive.</p>
+                <p class="muted">Ranked by map, mode, and difficulty — with pagination.</p>
+                <p class="cardpoint">Fast reads with clean response DTOs.</p>
             </article>
 
             <article class="card glass reveal up">
                 <div class="cardicon">🗺️</div>
                 <h3 class="h3">Maps & difficulty</h3>
-                <p class="muted">Map ID + difficulty are first-class API parameters.</p>
+                <p class="muted">Multiple maps and difficulty levels to push your best run.</p>
+                <p class="cardpoint">Scales naturally as you add content.</p>
+            </article>
+
+            <article class="card glass reveal up">
+                <div class="cardicon">🧠</div>
+                <h3 class="h3">Modes</h3>
+                <p class="muted">Different play styles so it doesn’t feel repetitive.</p>
+                <p class="cardpoint">Mode is first-class in the API.</p>
             </article>
 
             <article class="card glass reveal up">
                 <div class="cardicon">🔐</div>
                 <h3 class="h3">Session-protected submits</h3>
-                <p class="muted">Score writes require a session token (and validated DTO fields).</p>
+                <p class="muted">Score submissions require a session token and validated payload.</p>
+                <p class="cardpoint">Reduces spam and replay attacks.</p>
             </article>
 
             <article class="card glass reveal up">
                 <div class="cardicon">⚡</div>
                 <h3 class="h3">Rate limiting</h3>
-                <p class="muted">POST submissions are rate-limited to reduce abuse.</p>
+                <p class="muted">Write endpoints are rate-limited to reduce abuse.</p>
+                <p class="cardpoint">Targeted only at /api/scores POST.</p>
             </article>
 
             <article class="card glass reveal up">
                 <div class="cardicon">📦</div>
                 <h3 class="h3">One deploy</h3>
-                <p class="muted">Spring Boot serves API + website. Clean and simple hosting.</p>
+                <p class="muted">Spring Boot serves the API and this website.</p>
+                <p class="cardpoint">Same origin, no CORS headaches.</p>
             </article>
         </div>
     </section>
 
-    <!-- FINAL CTA “SNAKE SPEAKS” -->
-    <section class="section container">
+    <!-- TRY DEMO -->
+    <section id="demo" class="section screen container">
+        <div class="section-head reveal up">
+            <h2 class="h2">Try the demo</h2>
+            <p class="muted">
+                Play a basic Snake demo in the browser. This is local only — it does not submit scores anywhere.
+                Use arrow keys (or WASD).
+            </p>
+        </div>
+
+        <div class="demo glass reveal up">
+            <div class="demo-top">
+                <div class="demo-stats">
+                    <span class="pill">Score: <strong id="demoScore">0</strong></span>
+                    <span class="pill">Best: <strong id="demoBest">0</strong></span>
+                </div>
+                <div class="demo-actions">
+                    <button class="btn" id="demoRestart" type="button">Restart</button>
+                </div>
+            </div>
+
+            <canvas id="demoCanvas" width="980" height="520" tabindex="0" aria-label="Playable snake demo"></canvas>
+
+            <div class="demo-hint muted tiny">
+                Tip: click inside the demo once, then use arrow keys.
+            </div>
+        </div>
+    </section>
+
+    <!-- DOWNLOAD CTA -->
+    <section class="section screen container">
         <div class="cta glass reveal up">
             <div class="cta-left">
-                <h2 class="h2">Ready for “one more run”?</h2>
+                <h2 class="h2">Download and play for real</h2>
                 <p class="muted">
-                    Download the desktop Snake game and aim for the top. Your score belongs on the leaderboard.
+                    Get the desktop version for the full experience — maps, modes, and leaderboard submissions.
                 </p>
                 <div class="actions">
                     <a class="btn primary" href="/downloads/">Download</a>
-                    <a class="btn" href="/leaderboard/">Leaderboard</a>
                 </div>
             </div>
 
             <div class="cta-right">
-                <div class="snake-speech">
-                    <div class="bubble">
-                        <p><strong>psst…</strong> You can beat the top score 😄</p>
-                        <p class="tiny muted">Try a harder difficulty and submit your best run.</p>
-                    </div>
-                    <div class="snake">
-                        <div class="snake-head"></div>
-                        <div class="snake-body"></div>
-                        <div class="snake-tail"></div>
-                    </div>
-                </div>
+                <svg class="snakeSvg" viewBox="0 0 560 220" role="img" aria-label="Animated snake illustration">
+                    <defs>
+                        <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+                            <stop offset="0" stop-color="rgba(120,166,255,0.95)"/>
+                            <stop offset="1" stop-color="rgba(64,242,201,0.55)"/>
+                        </linearGradient>
+                        <filter id="glow">
+                            <feGaussianBlur stdDeviation="4" result="b"/>
+                            <feMerge>
+                                <feMergeNode in="b"/>
+                                <feMergeNode in="SourceGraphic"/>
+                            </feMerge>
+                        </filter>
+                    </defs>
+
+                    <path class="snakePath glow"
+                          d="M40 140 C 120 70, 200 200, 280 130
+                 S 420 70, 520 120"
+                          fill="none" stroke="url(#g)" stroke-width="24" stroke-linecap="round" stroke-linejoin="round"
+                          filter="url(#glow)"
+                    />
+                    <path class="snakePath2"
+                          d="M40 140 C 120 70, 200 200, 280 130
+                 S 420 70, 520 120"
+                          fill="none" stroke="rgba(255,255,255,0.18)" stroke-width="10" stroke-linecap="round"
+                    />
+
+                    <g class="snakeHead">
+                        <circle cx="520" cy="120" r="26" fill="rgba(255,255,255,0.06)" stroke="rgba(255,255,255,0.12)"/>
+                        <circle cx="520" cy="120" r="20" fill="url(#g)" opacity="0.9"/>
+                        <circle cx="528" cy="114" r="3" fill="rgba(255,255,255,0.9)"/>
+                        <circle cx="528" cy="126" r="3" fill="rgba(255,255,255,0.9)"/>
+                    </g>
+                </svg>
             </div>
         </div>
     </section>
 
     <!-- FOOTER -->
-    <footer class="footer container reveal up">
-        <div class="footerbox glass">
-            <div class="muted">
-                Built by <strong>Your Name</strong> • <a class="link" href="https://github.com/YOUR_GITHUB" target="_blank" rel="noopener">GitHub</a>
+    <footer class="sitefooter">
+        <div class="container footgrid">
+            <div class="footbrand">
+                <div class="footlogo">
+            <span class="brand-icon" aria-hidden="true">
+              <span class="dot"></span>
+              <span class="bar"></span>
+            </span>
+                    <span class="brand-name">Snake</span>
+                </div>
+                <p class="muted">
+                    A polished Snake project with a real backend, leaderboards, and a clean web presence.
+                </p>
             </div>
-            <div class="tiny muted">
-                API: <code>/api/leaderboard</code> • Health: <code>/health</code>
+
+            <div class="footcol">
+                <h4>Project</h4>
+                <a href="/downloads/">Download</a>
+                <a href="/leaderboard/">Leaderboard</a>
+                <a href="#demo">Try demo</a>
             </div>
+
+            <div class="footcol">
+                <h4>Info</h4>
+                <a href="/developers/">For Developers</a>
+                <a href="/about/">About</a>
+            </div>
+
+            <div class="footcol">
+                <h4>Links</h4>
+                <a href="https://github.com/YOUR_GITHUB" target="_blank" rel="noopener">GitHub</a>
+            </div>
+        </div>
+
+        <div class="container footbottom">
+            <span class="muted tiny">© <span id="year"></span> Your Name</span>
         </div>
     </footer>
 </main>
 
 <script src="/assets/site.js"></script>
 <script src="/assets/snake-demo.js"></script>
+<script src="/assets/demo.js"></script>
 </body>
 </html>

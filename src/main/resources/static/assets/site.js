@@ -25,45 +25,62 @@ const io = new IntersectionObserver((entries) => {
     }
   }
 }, { threshold: 0.12 });
-
 reveals.forEach(el => io.observe(el));
 
-// Carousel
-const shots = document.getElementById("shots");
-const prevShot = document.getElementById("prevShot");
-const nextShot = document.getElementById("nextShot");
-const dotsWrap = document.getElementById("shotDots");
+// Smooth scroll anchors
+document.querySelectorAll('a[href^="#"]').forEach(a => {
+  a.addEventListener("click", (e) => {
+    const id = a.getAttribute("href");
+    if (!id || id === "#") return;
+    const el = document.querySelector(id);
+    if (!el) return;
+    e.preventDefault();
+    el.scrollIntoView({ behavior: "smooth", block: "start" });
+  });
+});
 
-if (shots && dotsWrap) {
-  const slides = Array.from(shots.children);
+// Footer year
+const y = document.getElementById("year");
+if (y) y.textContent = String(new Date().getFullYear());
+
+// Screenshot carousel (viewport is the scroll container)
+const viewport = document.getElementById("shotsViewport");
+const track = document.getElementById("shotsTrack");
+const prevBtn = document.getElementById("shotsPrev");
+const nextBtn = document.getElementById("shotsNext");
+
+if (viewport && track && track.children.length > 0) {
+  const slides = Array.from(track.children);
   let index = 0;
 
-  // create dots
-  const dots = slides.map((_, i) => {
-    const d = document.createElement("div");
-    d.className = "dot" + (i === 0 ? " active" : "");
-    d.addEventListener("click", () => go(i));
-    dotsWrap.appendChild(d);
-    return d;
-  });
-
-  function go(i) {
-    index = Math.max(0, Math.min(slides.length - 1, i));
-    shots.scrollTo({ left: index * shots.clientWidth, behavior: "smooth" });
-    dots.forEach((d, di) => d.classList.toggle("active", di === index));
+  function gapPx() {
+    const style = getComputedStyle(track);
+    const g = style.gap || style.columnGap || "0px";
+    return parseFloat(g) || 0;
   }
 
-  function next() { go(index + 1); }
-  function prev() { go(index - 1); }
+  function stepPx() {
+    const w = slides[0].getBoundingClientRect().width;
+    return w + gapPx();
+  }
 
-  nextShot?.addEventListener("click", next);
-  prevShot?.addEventListener("click", prev);
+  function go(i) {
+    index = (i + slides.length) % slides.length;
+    viewport.scrollTo({ left: index * stepPx(), behavior: "smooth" });
+  }
 
-  // keep index in sync on resize
+  prevBtn?.addEventListener("click", () => go(index - 1));
+  nextBtn?.addEventListener("click", () => go(index + 1));
+
+  // Auto slide every 4s
+  let timer = setInterval(() => go(index + 1), 4000);
+
+  // Pause on hover
+  viewport.addEventListener("mouseenter", () => clearInterval(timer));
+  viewport.addEventListener("mouseleave", () => {
+    clearInterval(timer);
+    timer = setInterval(() => go(index + 1), 4000);
+  });
+
   window.addEventListener("resize", () => go(index));
-
-  // optional: auto-advance (comment out if you don't want it)
-  let t = setInterval(() => go((index + 1) % slides.length), 5500);
-  shots.addEventListener("mouseenter", () => clearInterval(t));
-  shots.addEventListener("mouseleave", () => t = setInterval(() => go((index + 1) % slides.length), 5500));
 }

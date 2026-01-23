@@ -1,7 +1,7 @@
 package com.snakeleaderboard.service;
 
 import com.snakeleaderboard.dto.StartSessionResponse;
-import org.springframework.jdbc.core.simple.JdbcClient;
+import com.snakeleaderboard.repository.SessionRepository;
 import org.springframework.stereotype.Service;
 
 import java.nio.charset.StandardCharsets;
@@ -15,11 +15,11 @@ import java.util.UUID;
 public class SessionService {
 
     private static final Duration SESSION_TTL = Duration.ofMinutes(30);
-    private final JdbcClient jdbc;
+    private final SessionRepository sessionRepository;
     private final SecureRandom secureRandom = new SecureRandom();
 
-    public SessionService(JdbcClient jdbc) {
-        this.jdbc = jdbc;
+    public SessionService(SessionRepository sessionRepository) {
+        this.sessionRepository = sessionRepository;
     }
 
     public StartSessionResponse createSession() {
@@ -30,12 +30,7 @@ public class SessionService {
         var now = java.time.OffsetDateTime.now(java.time.ZoneOffset.UTC);
         var expiresAt = now.plus(SESSION_TTL);
 
-        jdbc.sql("""
-            INSERT INTO sessions (id, token_hash, created_at, expires_at)
-            VALUES (?, ?, ?, ?)
-            """)
-                .params(sessionId, tokenHash, now, expiresAt)
-                .update();
+        sessionRepository.insertSession(sessionId, tokenHash, now, expiresAt);
 
         // response still uses Instant to keep API clean
         return new StartSessionResponse(sessionId, token, expiresAt.toInstant());
@@ -46,16 +41,13 @@ public class SessionService {
 
         String tokenHash = sha256Hex(token);
 
-        Integer count = jdbc.sql("""
-            SELECT COUNT(*) FROM sessions
-            WHERE id = ? AND token_hash = ? AND expires_at > ?
-            """)
-                .params(sessionId, tokenHash,
-                        java.time.OffsetDateTime.now(java.time.ZoneOffset.UTC))
-                .query(Integer.class)
-                .single();
+        int count = sessionRepository.countValidSessions(
+                sessionId,
+                tokenHash,
+                java.time.OffsetDateTime.now(java.time.ZoneOffset.UTC)
+        );
 
-        return count != null && count == 1;
+        return count == 1;
     }
 
     private String generateToken(int numBytes) {
@@ -75,11 +67,6 @@ public class SessionService {
     }
 
     public int deleteExpiredSessions() {
-        return jdbc.sql("""
-        DELETE FROM sessions
-        WHERE expires_at <= ?
-        """)
-                .params(java.time.OffsetDateTime.now(java.time.ZoneOffset.UTC))
-                .update();
+        return sessionRepository.deleteExpiredSessions(java.time.OffsetDateTime.now(java.time.ZoneOffset.UTC));
     }
 }

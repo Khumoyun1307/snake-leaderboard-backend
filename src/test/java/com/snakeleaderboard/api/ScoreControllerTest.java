@@ -110,6 +110,7 @@ class ScoreControllerTest {
         when(sessionService.isValidSession(eq(sessionId), anyString())).thenReturn(true);
 
         SubmitScoreRequest invalid = new SubmitScoreRequest(
+                UUID.randomUUID(),
                 "",
                 10,
                 1,
@@ -135,6 +136,7 @@ class ScoreControllerTest {
         when(sessionService.isValidSession(eq(sessionId), anyString())).thenReturn(true);
 
         SubmitScoreRequest invalid = new SubmitScoreRequest(
+                UUID.randomUUID(),
                 "player1",
                 2_000_001,
                 1,
@@ -155,6 +157,7 @@ class ScoreControllerTest {
 
     private SubmitScoreRequest validRequest() {
         return new SubmitScoreRequest(
+                UUID.randomUUID(),
                 "player1",
                 42,
                 2,

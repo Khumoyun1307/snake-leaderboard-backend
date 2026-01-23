@@ -21,5 +21,9 @@ public class WebRoutesConfig implements WebMvcConfigurer {
 
         registry.addViewController("/about").setViewName("forward:/about/index.html");
         registry.addViewController("/about/").setViewName("forward:/about/index.html");
+        
+        registry.addViewController("/contact/").setViewName("forward:/contact/index.html");
+        registry.addViewController("/rules/").setViewName("forward:/rules/index.html");
+
     }
 }

@@ -11,40 +11,39 @@
 <body>
 <div class="bg"></div>
 
-<!-- NAV (same structure as landing) -->
 <header class="navwrap">
     <div class="container navbar">
         <div class="navpill glass">
             <a class="brand" href="/" aria-label="Snake home">
-        <span class="brand-icon" aria-hidden="true">
-          <span class="dot"></span>
-          <span class="bar"></span>
-        </span>
-                <span class="brand-name">Snake</span>
+                <img src="/assets/img/snake.png" alt="" class="brand-icon" />
             </a>
 
             <nav class="navlinks" aria-label="Primary">
+                <a href="/">Welcome</a>
                 <a href="/downloads/">Download</a>
                 <a class="active" href="/leaderboard/">Leaderboard</a>
+                <a href="/rules/">Rules</a>
                 <a href="/developers/">For Developers</a>
                 <a href="/about/">About</a>
+                <a href="/contact/">Contact</a>
             </nav>
 
             <button class="iconbtn" id="menuBtn" aria-label="Open menu" aria-expanded="false">☰</button>
         </div>
 
         <div class="navctas">
-            <a class="btn" href="/">Home</a>
             <a class="btn primary" href="/downloads/">Download</a>
         </div>
     </div>
 
     <div class="container mobilemenu glass" id="mobileMenu" hidden>
+        <a href="/">Welcome</a>
         <a href="/downloads/">Download</a>
         <a href="/leaderboard/">Leaderboard</a>
+        <a href="/rules/">Rules</a>
         <a href="/developers/">For Developers</a>
         <a href="/about/">About</a>
-        <a href="/">Home</a>
+        <a href="/contact/">Contact</a>
     </div>
 </header>
 
@@ -57,7 +56,6 @@
             </p>
         </div>
 
-        <!-- Filters -->
         <section class="glass lb-panel reveal up">
             <div class="lb-filters">
                 <label class="lb-field" id="mapFieldWrap">
@@ -126,7 +124,8 @@
         </section>
     </section>
 
-    <!-- FOOTER (same style as landing) -->
+    <button id="scrollTopBtn" class="scroll-top-btn" aria-label="Scroll to top" hidden>&#8593;</button>
+
     <footer class="sitefooter">
         <div class="container footgrid">
             <div class="footbrand">
@@ -137,26 +136,26 @@
           </span>
                     <span class="brand-name">Snake</span>
                 </div>
-                <p class="muted">
-                    Live leaderboard backed by the same API used by the desktop client.
-                </p>
             </div>
 
             <div class="footcol">
                 <h4>Project</h4>
+                <a href="/">Home</a>
                 <a href="/downloads/">Download</a>
                 <a href="/leaderboard/">Leaderboard</a>
-                <a href="/">Home</a>
+                <a href="/rules/">Rules</a>
             </div>
 
             <div class="footcol">
                 <h4>Info</h4>
                 <a href="/developers/">For Developers</a>
                 <a href="/about/">About</a>
+                <a href="/contact/">Contact</a>
             </div>
 
             <div class="footcol">
                 <h4>Links</h4>
+                <a href="https://YOUR_PORTFOLIO" target="_blank" rel="noopener">Portfolio</a>
                 <a href="https://github.com/YOUR_GITHUB" target="_blank" rel="noopener">GitHub</a>
             </div>
         </div>

@@ -11,23 +11,21 @@
 <body>
 <div class="bg"></div>
 
-<!-- NAV -->
 <header class="navwrap">
     <div class="container navbar">
         <div class="navpill glass">
             <a class="brand" href="/" aria-label="Snake home">
-        <span class="brand-icon" aria-hidden="true">
-          <span class="dot"></span>
-          <span class="bar"></span>
-        </span>
-                <span class="brand-name">Snake</span>
+                <img src="/assets/img/snake.png" alt="" class="brand-icon" />
             </a>
 
             <nav class="navlinks" aria-label="Primary">
+                <a href="/">Welcome</a>
                 <a class="active" href="/downloads/">Download</a>
                 <a href="/leaderboard/">Leaderboard</a>
+                <a href="/rules/">Rules</a>
                 <a href="/developers/">For Developers</a>
                 <a href="/about/">About</a>
+                <a href="/contact/">Contact</a>
             </nav>
 
             <button class="iconbtn" id="menuBtn" aria-label="Open menu" aria-expanded="false">☰</button>
@@ -40,17 +38,18 @@
     </div>
 
     <div class="container mobilemenu glass" id="mobileMenu" hidden>
+        <a href="/">Welcome</a>
         <a href="/downloads/">Download</a>
         <a href="/leaderboard/">Leaderboard</a>
+        <a href="/rules/">Rules</a>
         <a href="/developers/">For Developers</a>
         <a href="/about/">About</a>
-        <a href="/">Home</a>
+        <a href="/contact/">Contact</a>
         <a href="https://github.com/YOUR_GITHUB" target="_blank" rel="noopener">GitHub</a>
     </div>
 </header>
 
 <main>
-    <!-- HERO -->
     <section class="section container">
         <div class="section-head reveal up">
             <h1 class="h2">Download</h1>
@@ -69,7 +68,6 @@
                     <a class="btn primary" href="https://github.com/YOUR_GITHUB/releases" target="_blank" rel="noopener">
                         GitHub Releases
                     </a>
-                    <a class="btn" href="/leaderboard/">View leaderboard</a>
                 </div>
             </div>
 
@@ -94,12 +92,11 @@
         </div>
     </section>
 
-    <!-- DOWNLOAD CARDS -->
     <section class="section container">
         <div class="section-head reveal up">
             <h2 class="h2">Packages</h2>
             <p class="muted">
-                Choose a package based on your platform. You can replace these links later with your real release assets.
+                Choose a package based on your platform.
             </p>
         </div>
 
@@ -110,17 +107,16 @@
                 <p class="muted">Best experience for Windows users.</p>
 
                 <div class="dl-pills">
-                    <span class="pill">Installer</span>
                     <span class="pill">Auto update (optional)</span>
                 </div>
 
                 <div class="dl-actions">
-                    <a class="btn primary" href="#" aria-disabled="true" onclick="return false;">Download EXE</a>
+                    <a class="btn primary" href="#">Download EXE</a>
                     <a class="btn" href="https://github.com/YOUR_GITHUB/releases" target="_blank" rel="noopener">Releases</a>
                 </div>
 
                 <p class="dl-foot muted tiny">
-                    Coming soon / replace with a direct GitHub release asset link.
+                    Direct download link will appear here.
                 </p>
             </article>
 
@@ -136,12 +132,12 @@
                 </div>
 
                 <div class="dl-actions">
-                    <a class="btn primary" href="#" aria-disabled="true" onclick="return false;">Download JAR</a>
+                    <a class="btn primary" href="#">Download JAR</a>
                     <a class="btn" href="https://github.com/YOUR_GITHUB/releases" target="_blank" rel="noopener">Releases</a>
                 </div>
 
                 <p class="dl-foot muted tiny">
-                    Replace with <code>snake-client.jar</code> release asset.
+                    Jar download link will appear here.
                 </p>
             </article>
 
@@ -168,7 +164,6 @@
         </div>
     </section>
 
-    <!-- HOW TO RUN -->
     <section class="section container">
         <div class="section-head reveal up">
             <h2 class="h2">How to run</h2>
@@ -204,38 +199,16 @@
                 <div class="dev-callout">
                     <div class="dev-callout-title">Support</div>
                     <div class="muted tiny">
-                        Issues and bug reports: <a href="https://github.com/YOUR_GITHUB/issues" target="_blank" rel="noopener">GitHub Issues</a>
+                        Issues running the package or JAR? <a href="/docs/">Read the Documentation</a> or report it on
+                        <a href="https://github.com/YOUR_GITHUB/issues" target="_blank" rel="noopener">GitHub Issues</a>.
                     </div>
                 </div>
             </article>
         </div>
     </section>
 
-    <!-- CTA -->
-    <section class="section container">
-        <div class="cta glass reveal up">
-            <div class="cta-left">
-                <h2 class="h2">Ready to compete?</h2>
-                <p class="muted">
-                    Download the client and aim for the top spot. Filters include map, mode, and difficulty.
-                </p>
-                <div class="actions">
-                    <a class="btn primary" href="/leaderboard/">Leaderboard</a>
-                    <a class="btn" href="/">Back to home</a>
-                    <a class="btn" href="https://github.com/YOUR_GITHUB/releases" target="_blank" rel="noopener">Releases</a>
-                </div>
-            </div>
+    <button id="scrollTopBtn" class="scroll-top-btn" aria-label="Scroll to top" hidden>&#8593;</button>
 
-            <div class="cta-right">
-                <div class="muted tiny">
-                    Desktop: Java Swing • Backend: Spring Boot<br/>
-                    Online leaderboard + web UI (same API).
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- FOOTER -->
     <footer class="sitefooter">
         <div class="container footgrid">
             <div class="footbrand">
@@ -246,28 +219,27 @@
           </span>
                     <span class="brand-name">Snake</span>
                 </div>
-                <p class="muted">
-                    A polished Snake project with a real backend, leaderboards, and a clean web presence.
-                </p>
             </div>
 
             <div class="footcol">
                 <h4>Project</h4>
+                <a href="/">Home</a>
                 <a href="/downloads/">Download</a>
                 <a href="/leaderboard/">Leaderboard</a>
-                <a href="/">Home</a>
+                <a href="/rules/">Rules</a>
             </div>
 
             <div class="footcol">
                 <h4>Info</h4>
                 <a href="/developers/">For Developers</a>
                 <a href="/about/">About</a>
+                <a href="/contact/">Contact</a>
             </div>
 
             <div class="footcol">
                 <h4>Links</h4>
+                <a href="https://YOUR_PORTFOLIO" target="_blank" rel="noopener">Portfolio</a>
                 <a href="https://github.com/YOUR_GITHUB" target="_blank" rel="noopener">GitHub</a>
-                <a href="https://github.com/YOUR_GITHUB/releases" target="_blank" rel="noopener">Releases</a>
             </div>
         </div>
 

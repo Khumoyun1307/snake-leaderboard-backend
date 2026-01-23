@@ -5,29 +5,27 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Snake — Nostalgia, Upgraded</title>
     <meta name="description" content="A modern Snake game with a desktop app + online leaderboard. View the leaderboard and try the web demo." />
-    <link rel="stylesheet" href="/assets/styles.css" />
+    <link rel="stylesheet" href="assets/styles.css" />
 </head>
 
 <body>
 <div class="bg"></div>
 
-<!-- NAV -->
 <header class="navwrap">
     <div class="container navbar">
         <div class="navpill glass">
             <a class="brand" href="/" aria-label="Snake home">
-          <span class="brand-icon" aria-hidden="true">
-            <span class="dot"></span>
-            <span class="bar"></span>
-          </span>
-                <span class="brand-name">Snake</span>
+                <img src="assets/img/snake.png" alt="" class="brand-icon" />
             </a>
 
             <nav class="navlinks" aria-label="Primary">
+                <a class="active" href="/">Welcome</a>
                 <a href="/downloads/">Download</a>
                 <a href="/leaderboard/">Leaderboard</a>
+                <a href="/rules/">Rules</a>
                 <a href="/developers/">For Developers</a>
                 <a href="/about/">About</a>
+                <a href="/contact/">Contact</a>
             </nav>
 
             <button class="iconbtn" id="menuBtn" aria-label="Open menu" aria-expanded="false">☰</button>
@@ -40,16 +38,18 @@
     </div>
 
     <div class="container mobilemenu glass" id="mobileMenu" hidden>
+        <a href="/">Welcome</a>
         <a href="/downloads/">Download</a>
         <a href="/leaderboard/">Leaderboard</a>
+        <a href="/rules/">Rules</a>
         <a href="/developers/">For Developers</a>
         <a href="/about/">About</a>
+        <a href="/contact/">Contact</a>
         <a href="#demo">Try demo</a>
     </div>
 </header>
 
 <main>
-    <!-- HERO -->
     <section class="section screen hero container">
         <div class="hero-left reveal up">
             <h1 class="title">
@@ -74,7 +74,6 @@
         </div>
     </section>
 
-    <!-- STORY -->
     <section id="story" class="section screen container">
         <div class="section-head reveal up">
             <h2 class="h2">Nostalgia, upgraded</h2>
@@ -84,23 +83,21 @@
             </p>
         </div>
 
-        <div class="shots-row reveal up">
-            <button class="shots-btn" id="shotsPrev" aria-label="Previous screenshots">←</button>
-
-            <div class="shots-viewport" id="shotsViewport">
-                <div class="shots-track" id="shotsTrack">
-                    <div class="shot ph1"></div>
-                    <div class="shot ph2"></div>
-                    <div class="shot ph3"></div>
-                    <div class="shot ph4"></div>
+        <div class="coverflow reveal up">
+            <div class="coverflow-viewport" id="coverflowViewport" tabindex="0" role="region" aria-label="Featured cards carousel">
+                <button class="coverflow-btn prev" id="coverflowPrev" type="button" aria-label="Previous card">
+                    <span aria-hidden="true">&larr;</span>
+                </button>
+                <div class="coverflow-clip">
+                    <div class="coverflow-track" id="coverflowTrack"></div>
                 </div>
+                <button class="coverflow-btn next" id="coverflowNext" type="button" aria-label="Next card">
+                    <span aria-hidden="true">&rarr;</span>
+                </button>
             </div>
-
-            <button class="shots-btn" id="shotsNext" aria-label="Next screenshots">→</button>
         </div>
     </section>
 
-    <!-- FEATURES -->
     <section class="section screen container">
         <div class="section-head reveal up">
             <h2 class="h2">Features</h2>
@@ -152,7 +149,6 @@
         </div>
     </section>
 
-    <!-- TRY DEMO -->
     <section id="demo" class="section screen container">
         <div class="section-head reveal up">
             <h2 class="h2">Try the demo</h2>
@@ -181,7 +177,6 @@
         </div>
     </section>
 
-    <!-- DOWNLOAD CTA -->
     <section class="section screen container">
         <div class="cta glass reveal up">
             <div class="cta-left">
@@ -233,37 +228,38 @@
         </div>
     </section>
 
-    <!-- FOOTER -->
+    <button id="scrollTopBtn" class="scroll-top-btn" aria-label="Scroll to top" hidden>↑</button>
+
     <footer class="sitefooter">
         <div class="container footgrid">
             <div class="footbrand">
                 <div class="footlogo">
-            <span class="brand-icon" aria-hidden="true">
-              <span class="dot"></span>
-              <span class="bar"></span>
-            </span>
+          <span class="brand-icon" aria-hidden="true">
+            <span class="dot"></span>
+            <span class="bar"></span>
+          </span>
                     <span class="brand-name">Snake</span>
                 </div>
-                <p class="muted">
-                    A polished Snake project with a real backend, leaderboards, and a clean web presence.
-                </p>
             </div>
 
             <div class="footcol">
                 <h4>Project</h4>
+                <a href="/">Home</a>
                 <a href="/downloads/">Download</a>
                 <a href="/leaderboard/">Leaderboard</a>
-                <a href="#demo">Try demo</a>
+                <a href="/rules/">Rules</a>
             </div>
 
             <div class="footcol">
                 <h4>Info</h4>
                 <a href="/developers/">For Developers</a>
                 <a href="/about/">About</a>
+                <a href="/contact/">Contact</a>
             </div>
 
             <div class="footcol">
                 <h4>Links</h4>
+                <a href="https://YOUR_PORTFOLIO" target="_blank" rel="noopener">Portfolio</a>
                 <a href="https://github.com/YOUR_GITHUB" target="_blank" rel="noopener">GitHub</a>
             </div>
         </div>
@@ -274,8 +270,9 @@
     </footer>
 </main>
 
-<script src="/assets/site.js"></script>
-<script src="/assets/snake-demo.js"></script>
-<script src="/assets/demo.js"></script>
+<script src="assets/site.js"></script>
+<script src="assets/script.js"></script>
+<script src="assets/snake-demo.js"></script>
+<script src="assets/demo.js"></script>
 </body>
 </html>

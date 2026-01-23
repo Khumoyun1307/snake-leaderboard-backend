@@ -11,23 +11,21 @@
 <body>
 <div class="bg"></div>
 
-<!-- NAV -->
 <header class="navwrap">
     <div class="container navbar">
         <div class="navpill glass">
             <a class="brand" href="/" aria-label="Snake home">
-        <span class="brand-icon" aria-hidden="true">
-          <span class="dot"></span>
-          <span class="bar"></span>
-        </span>
-                <span class="brand-name">Snake</span>
+                <img src="/assets/img/snake.png" alt="" class="brand-icon" />
             </a>
 
             <nav class="navlinks" aria-label="Primary">
+                <a href="/">Welcome</a>
                 <a href="/downloads/">Download</a>
                 <a href="/leaderboard/">Leaderboard</a>
+                <a href="/rules/">Rules</a>
                 <a href="/developers/">For Developers</a>
                 <a class="active" href="/about/">About</a>
+                <a href="/contact/">Contact</a>
             </nav>
 
             <button class="iconbtn" id="menuBtn" aria-label="Open menu" aria-expanded="false">☰</button>
@@ -40,17 +38,18 @@
     </div>
 
     <div class="container mobilemenu glass" id="mobileMenu" hidden>
+        <a href="/">Welcome</a>
         <a href="/downloads/">Download</a>
         <a href="/leaderboard/">Leaderboard</a>
+        <a href="/rules/">Rules</a>
         <a href="/developers/">For Developers</a>
         <a href="/about/">About</a>
-        <a href="/">Home</a>
+        <a href="/contact/">Contact</a>
         <a href="https://github.com/YOUR_GITHUB" target="_blank" rel="noopener">GitHub</a>
     </div>
 </header>
 
 <main>
-    <!-- HERO -->
     <section class="section container">
         <div class="about-hero reveal up">
             <div class="about-hero-left">
@@ -66,7 +65,6 @@
                 <div class="actions" style="margin-top:16px;">
                     <a class="btn primary" href="/leaderboard/">View leaderboard</a>
                     <a class="btn" href="/downloads/">Download</a>
-                    <a class="btn" href="/">Back to home</a>
                 </div>
 
                 <div class="about-badges">
@@ -98,6 +96,10 @@
                     <a class="btn" href="https://github.com/YOUR_GITHUB" target="_blank" rel="noopener">GitHub</a>
                 </div>
 
+                <p class="muted about-bio">
+                    Backend-focused developer who enjoys clean APIs, thoughtful UI, and small projects that feel real.
+                </p>
+
                 <div class="about-mini muted tiny">
                     If you’re a recruiter: this project is designed to show real-world engineering — not just gameplay.
                 </div>
@@ -105,7 +107,6 @@
         </div>
     </section>
 
-    <!-- INSPIRATION -->
     <section class="section container">
         <div class="section-head reveal up">
             <h2 class="h2">Inspiration</h2>
@@ -141,7 +142,6 @@
         </div>
     </section>
 
-    <!-- WHAT’S DIFFERENT NOW -->
     <section class="section container">
         <div class="section-head reveal up">
             <h2 class="h2">What’s new in this version</h2>
@@ -176,12 +176,11 @@
         </div>
     </section>
 
-    <!-- SCREENSHOTS (placeholders) -->
     <section class="section container">
         <div class="section-head reveal up">
             <h2 class="h2">Screenshots</h2>
             <p class="muted">
-                Add real screenshots later (desktop menu, gameplay, leaderboard, etc.). The layout is ready.
+                Screenshots of the desktop menu, gameplay, and leaderboard live here.
             </p>
         </div>
 
@@ -193,7 +192,6 @@
         </div>
     </section>
 
-    <!-- CTA -->
     <section class="section container">
         <div class="cta glass reveal up">
             <div class="cta-left">
@@ -217,7 +215,8 @@
         </div>
     </section>
 
-    <!-- FOOTER -->
+    <button id="scrollTopBtn" class="scroll-top-btn" aria-label="Scroll to top" hidden>&#8593;</button>
+
     <footer class="sitefooter">
         <div class="container footgrid">
             <div class="footbrand">
@@ -228,22 +227,21 @@
           </span>
                     <span class="brand-name">Snake</span>
                 </div>
-                <p class="muted">
-                    A modern Snake project with a desktop client, a real backend, and online leaderboards.
-                </p>
             </div>
 
             <div class="footcol">
                 <h4>Project</h4>
+                <a href="/">Home</a>
                 <a href="/downloads/">Download</a>
                 <a href="/leaderboard/">Leaderboard</a>
-                <a href="/">Home</a>
+                <a href="/rules/">Rules</a>
             </div>
 
             <div class="footcol">
                 <h4>Info</h4>
                 <a href="/developers/">For Developers</a>
                 <a href="/about/">About</a>
+                <a href="/contact/">Contact</a>
             </div>
 
             <div class="footcol">

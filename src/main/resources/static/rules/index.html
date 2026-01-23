@@ -1,0 +1,448 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Rules - Snake</title>
+    <meta name="description" content="Learn how to play Snake: controls, rules, maps, modes, scoring, and features." />
+    <link rel="stylesheet" href="/assets/styles.css" />
+</head>
+
+<body>
+<div class="bg"></div>
+
+<header class="navwrap">
+    <div class="container navbar">
+        <div class="navpill glass">
+            <a class="brand" href="/" aria-label="Snake home">
+                <img src="/assets/img/snake.png" alt="" class="brand-icon" />
+            </a>
+
+            <nav class="navlinks" aria-label="Primary">
+                <a href="/">Welcome</a>
+                <a href="/downloads/">Download</a>
+                <a href="/leaderboard/">Leaderboard</a>
+                <a class="active" href="/rules/">Rules</a>
+                <a href="/developers/">For Developers</a>
+                <a href="/about/">About</a>
+                <a href="/contact/">Contact</a>
+            </nav>
+
+            <button class="iconbtn" id="menuBtn" aria-label="Open menu" aria-expanded="false">&#9776;</button>
+        </div>
+
+        <div class="navctas">
+            <a class="btn" href="/downloads/">Download</a>
+            <a class="btn primary" href="https://github.com/YOUR_GITHUB" target="_blank" rel="noopener">GitHub</a>
+        </div>
+    </div>
+
+    <div class="container mobilemenu glass" id="mobileMenu" hidden>
+        <a href="/">Welcome</a>
+        <a href="/downloads/">Download</a>
+        <a href="/leaderboard/">Leaderboard</a>
+        <a href="/rules/">Rules</a>
+        <a href="/developers/">For Developers</a>
+        <a href="/about/">About</a>
+        <a href="/contact/">Contact</a>
+        <a href="https://github.com/YOUR_GITHUB" target="_blank" rel="noopener">GitHub</a>
+    </div>
+</header>
+
+<main>
+    <section class="section container">
+        <div class="dev-hero reveal up">
+            <div class="dev-hero-left">
+                <h1 class="title" style="margin-bottom:10px;">Rules and How to Play</h1>
+                <p class="subtitle">
+                    New to Snake? This page explains the basics and the advanced stuff: controls, maps, modes, scoring,
+                    and game rules.
+                </p>
+
+                <div class="actions" style="margin-top:16px;">
+                    <a class="btn primary" href="/downloads/">Download</a>
+                    <a class="btn" href="/leaderboard/">View leaderboard</a>
+                </div>
+
+                <div class="dev-badges">
+                    <span class="pill">Beginner friendly</span>
+                    <span class="pill">Full ruleset</span>
+                    <span class="pill">Modes and maps</span>
+                    <span class="pill">Scoring explained</span>
+                </div>
+            </div>
+
+            <div class="dev-hero-right glass">
+                <div class="dev-minihead">
+                    <div class="muted tiny">Quick start</div>
+                </div>
+
+                <div class="dev-kpi">
+                    <div class="dev-kpi-item">
+                        <div class="muted tiny">Goal</div>
+                        <div class="dev-kpi-val">Eat, grow, survive</div>
+                    </div>
+                    <div class="dev-kpi-item">
+                        <div class="muted tiny">Controls</div>
+                        <div class="dev-kpi-val">Arrow keys or WASD</div>
+                    </div>
+                    <div class="dev-kpi-item">
+                        <div class="muted tiny">Lose condition</div>
+                        <div class="dev-kpi-val">Hit wall or self</div>
+                    </div>
+                    <div class="dev-kpi-item">
+                        <div class="muted tiny">Score</div>
+                        <div class="dev-kpi-val">Food + bonuses</div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <section class="section container">
+        <div class="section-head reveal up">
+            <h2 class="h2">How to play</h2>
+            <p class="muted">A step by step view for players who have never played Snake before.</p>
+        </div>
+
+        <div class="dev-grid-2">
+            <article class="glass dev-card reveal up">
+                <h3 class="h3">Start a run</h3>
+                <ul class="dev-list">
+                    <li>Launch the desktop client.</li>
+                    <li>Choose a map, mode, and difficulty (if prompted).</li>
+                    <li>Press Start to spawn the snake.</li>
+                    <li>Food appears randomly on the map.</li>
+                </ul>
+            </article>
+
+            <article class="glass dev-card reveal up">
+                <h3 class="h3">Move and turn</h3>
+                <ul class="dev-list">
+                    <li>Use arrow keys or WASD to change direction.</li>
+                    <li>You can only turn 90 degrees.</li>
+                    <li>Most modes prevent reversing into yourself.</li>
+                    <li>Stay inside the play area unless a map allows wrapping.</li>
+                </ul>
+            </article>
+        </div>
+    </section>
+
+    <section class="section container">
+        <div class="section-head reveal up">
+            <h2 class="h2">Core rules</h2>
+            <p class="muted">These rules apply across all maps and modes unless noted.</p>
+        </div>
+
+        <div class="dev-grid-2">
+            <article class="glass dev-card reveal up">
+                <h3 class="h3">Movement rules</h3>
+                <ul class="dev-list">
+                    <li>The snake moves one grid unit per tick.</li>
+                    <li>Turning is instant at the next grid step.</li>
+                    <li>Speed increases at defined score thresholds.</li>
+                    <li>Pausing a run freezes the timer and movement.</li>
+                </ul>
+            </article>
+
+            <article class="glass dev-card reveal up">
+                <h3 class="h3">Collision rules</h3>
+                <ul class="dev-list">
+                    <li>Hitting a wall ends the run.</li>
+                    <li>Running into your own body ends the run.</li>
+                    <li>Obstacle collisions end the run on blocked maps.</li>
+                    <li>Border wrapping (if enabled) replaces wall collision.</li>
+                </ul>
+            </article>
+        </div>
+    </section>
+
+    <section class="section container">
+        <div class="section-head reveal up">
+            <h2 class="h2">Food, growth, and items</h2>
+            <p class="muted">
+                Eating food grows the snake and increases score. Optional items can expand the challenge.
+            </p>
+        </div>
+
+        <div class="dev-grid-3">
+            <article class="card glass reveal up">
+                <div class="cardicon">FO</div>
+                <h3 class="h3">Food</h3>
+                <p class="muted">Each food pickup adds length and points.</p>
+                <p class="cardpoint">Default: +1 length per food.</p>
+            </article>
+
+            <article class="card glass reveal up">
+                <div class="cardicon">SP</div>
+                <h3 class="h3">Speed boosts</h3>
+                <p class="muted">Speed can increase at score milestones.</p>
+                <p class="cardpoint">Tune thresholds to match your pacing.</p>
+            </article>
+
+            <article class="card glass reveal up">
+                <div class="cardicon">IT</div>
+                <h3 class="h3">Special items</h3>
+                <p class="muted">Optional powerups like slow, shrink, or shield.</p>
+                <p class="cardpoint">Optional items add extra depth.</p>
+            </article>
+        </div>
+    </section>
+
+    <section class="section container">
+        <div class="section-head reveal up">
+            <h2 class="h2">Maps</h2>
+            <p class="muted">
+                Each map changes the available space and obstacle layout.
+            </p>
+        </div>
+
+        <div class="dev-grid-3">
+            <article class="card glass reveal up">
+                <div class="cardicon">01</div>
+                <h3 class="h3">Classic arena</h3>
+                <p class="muted">Open field with border walls. Best for learning.</p>
+                <p class="cardpoint">Wide lanes and long turns.</p>
+            </article>
+
+            <article class="card glass reveal up">
+                <div class="cardicon">02</div>
+                <h3 class="h3">Block corners</h3>
+                <p class="muted">Obstacles in corners force tighter routes.</p>
+                <p class="cardpoint">Corner control matters most.</p>
+            </article>
+
+            <article class="card glass reveal up">
+                <div class="cardicon">03</div>
+                <h3 class="h3">Maze lanes</h3>
+                <p class="muted">Narrow corridors reward precise turns.</p>
+                <p class="cardpoint">Tight paths with limited escape.</p>
+            </article>
+        </div>
+
+        <div class="dev-callout">
+            <div class="dev-callout-title">Map rules</div>
+            <div class="muted tiny">
+                Some maps can enable wraparound or special zones.
+            </div>
+        </div>
+    </section>
+
+    <section class="section container">
+        <div class="section-head reveal up">
+            <h2 class="h2">Modes</h2>
+            <p class="muted">Modes change objectives and how maps are selected.</p>
+        </div>
+
+        <div class="dev-grid-3">
+            <article class="card glass reveal up">
+                <div class="cardicon">STD</div>
+                <h3 class="h3">STANDARD</h3>
+                <p class="muted">Classic Snake gameplay with default rules.</p>
+                <p class="cardpoint">Use this for most leaderboard runs.</p>
+            </article>
+
+            <article class="card glass reveal up">
+                <div class="cardicon">MAP</div>
+                <h3 class="h3">MAP_SELECT</h3>
+                <p class="muted">Choose a specific map before starting a run.</p>
+                <p class="cardpoint">Useful for practice and challenges.</p>
+            </article>
+
+            <article class="card glass reveal up">
+                <div class="cardicon">RCE</div>
+                <h3 class="h3">RACE</h3>
+                <p class="muted">Score or time based objective mode.</p>
+                <p class="cardpoint">Define finish conditions and bonuses.</p>
+            </article>
+        </div>
+    </section>
+
+    <section class="section container">
+        <div class="section-head reveal up">
+            <h2 class="h2">Difficulty tiers</h2>
+            <p class="muted">Difficulty adjusts speed, spawn pacing, and scoring.</p>
+        </div>
+
+        <div class="dev-grid-2">
+            <article class="glass dev-card reveal up">
+                <h3 class="h3">Available difficulties</h3>
+                <ul class="dev-list">
+                    <li>EASY: slower speed, generous turn window.</li>
+                    <li>NORMAL: baseline speed and scoring.</li>
+                    <li>HARD: faster ticks, tighter recovery.</li>
+                    <li>EXPERT: high speed with minimal forgiveness.</li>
+                    <li>INSANE: fastest pace, high risk.</li>
+                </ul>
+            </article>
+
+            <article class="glass dev-card reveal up">
+                <h3 class="h3">What changes</h3>
+                <ul class="dev-list">
+                    <li>Movement speed and acceleration thresholds.</li>
+                    <li>Spawn rate for food or bonus items.</li>
+                    <li>Score multipliers or end of run bonuses.</li>
+                    <li>Leaderboard filters reflect difficulty.</li>
+                </ul>
+            </article>
+        </div>
+    </section>
+
+    <section class="section container">
+        <div class="section-head reveal up">
+            <h2 class="h2">Scoring and progress</h2>
+            <p class="muted">
+                Scoring combines base points with bonuses.
+            </p>
+        </div>
+
+        <div class="dev-grid-2">
+            <article class="glass dev-card reveal up">
+                <h3 class="h3">Score basics</h3>
+                <ul class="dev-list">
+                    <li>Food pickup adds a base score.</li>
+                    <li>Speed tiers can add a multiplier.</li>
+                    <li>Difficulty can add a flat bonus.</li>
+                    <li>Optional bonus items add extra points.</li>
+                </ul>
+
+                <div class="dev-code">
+                    <pre><code>score = (food * 10) + (time * 1) + (difficultyBonus)</code></pre>
+                </div>
+            </article>
+
+            <article class="glass dev-card reveal up">
+                <h3 class="h3">Progress stages</h3>
+                <ul class="dev-list">
+                    <li>Early game: focus on safe turns and space.</li>
+                    <li>Mid game: speed increases, routes tighten.</li>
+                    <li>Late game: avoid self traps and plan exits.</li>
+                    <li>End: run ends on collision or objective completion.</li>
+                </ul>
+            </article>
+        </div>
+    </section>
+
+    <section class="section container">
+        <div class="section-head reveal up">
+            <h2 class="h2">Game features</h2>
+            <p class="muted">Systems that support gameplay and leaderboards.</p>
+        </div>
+
+        <div class="cards">
+            <article class="card glass reveal up">
+                <div class="cardicon">LB</div>
+                <h3 class="h3">Online leaderboard</h3>
+                <p class="muted">Runs can submit scores to the backend API.</p>
+                <p class="cardpoint">Scores filter by map, mode, difficulty.</p>
+            </article>
+
+            <article class="card glass reveal up">
+                <div class="cardicon">SS</div>
+                <h3 class="h3">Session protected submits</h3>
+                <p class="muted">Submissions require a short lived session.</p>
+                <p class="cardpoint">Helps reduce spam and replays.</p>
+            </article>
+
+            <article class="card glass reveal up">
+                <div class="cardicon">OF</div>
+                <h3 class="h3">Offline play</h3>
+                <p class="muted">You can still play without a connection.</p>
+                <p class="cardpoint">Leaderboard submits may fail while offline.</p>
+            </article>
+        </div>
+    </section>
+
+    <section class="section container">
+        <div class="section-head reveal up">
+            <h2 class="h2">Tips for new players</h2>
+            <p class="muted">Simple advice to last longer and score higher.</p>
+        </div>
+
+        <div class="dev-grid-2">
+            <article class="glass dev-card reveal up">
+                <h3 class="h3">Movement tips</h3>
+                <ul class="dev-list">
+                    <li>Keep to the edges early to avoid self traps.</li>
+                    <li>Leave escape lanes when turning into tight spaces.</li>
+                    <li>Plan two moves ahead at higher speeds.</li>
+                </ul>
+            </article>
+
+            <article class="glass dev-card reveal up">
+                <h3 class="h3">Scoring tips</h3>
+                <ul class="dev-list">
+                    <li>Focus on survival over risky shortcuts.</li>
+                    <li>Use easier maps to learn speed changes.</li>
+                    <li>Practice a single map to master routes.</li>
+                </ul>
+            </article>
+        </div>
+    </section>
+
+    <section class="section container">
+        <div class="cta glass reveal up">
+            <div class="cta-left">
+                <h2 class="h2">Built by</h2>
+                <p class="muted">Created by Your Name. For questions or feedback, reach out anytime.</p>
+                <div class="actions">
+                    <a class="btn primary" href="/contact/">Contact</a>
+                    <a class="btn" href="https://YOUR_PORTFOLIO" target="_blank" rel="noopener">Portfolio</a>
+                </div>
+            </div>
+
+            <div class="cta-right">
+                <div class="muted tiny">
+                    Built by: <span class="grad">Your Name</span><br/>
+                    Project: <span class="grad">Snake</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <button id="scrollTopBtn" class="scroll-top-btn" aria-label="Scroll to top" hidden>&#8593;</button>
+
+    <footer class="sitefooter">
+        <div class="container footgrid">
+            <div class="footbrand">
+                <div class="footlogo">
+          <span class="brand-icon" aria-hidden="true">
+            <span class="dot"></span>
+            <span class="bar"></span>
+          </span>
+                    <span class="brand-name">Snake</span>
+                </div>
+            </div>
+
+            <div class="footcol">
+                <h4>Project</h4>
+                <a href="/">Home</a>
+                <a href="/downloads/">Download</a>
+                <a href="/leaderboard/">Leaderboard</a>
+                <a href="/rules/">Rules</a>
+            </div>
+
+            <div class="footcol">
+                <h4>Info</h4>
+                <a href="/developers/">For Developers</a>
+                <a href="/about/">About</a>
+                <a href="/contact/">Contact</a>
+            </div>
+
+            <div class="footcol">
+                <h4>Links</h4>
+                <a href="https://YOUR_PORTFOLIO" target="_blank" rel="noopener">Portfolio</a>
+                <a href="https://github.com/YOUR_GITHUB" target="_blank" rel="noopener">GitHub</a>
+            </div>
+        </div>
+
+        <div class="container footbottom">
+            <span class="muted tiny">&copy; <span id="year"></span> Your Name</span>
+        </div>
+    </footer>
+</main>
+
+<script src="/assets/site.js"></script>
+</body>
+</html>

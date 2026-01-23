@@ -11,23 +11,21 @@
 <body>
 <div class="bg"></div>
 
-<!-- NAV -->
 <header class="navwrap">
     <div class="container navbar">
         <div class="navpill glass">
             <a class="brand" href="/" aria-label="Snake home">
-        <span class="brand-icon" aria-hidden="true">
-          <span class="dot"></span>
-          <span class="bar"></span>
-        </span>
-                <span class="brand-name">Snake</span>
+                <img src="/assets/img/snake.png" alt="" class="brand-icon" />
             </a>
 
             <nav class="navlinks" aria-label="Primary">
+                <a href="/">Welcome</a>
                 <a href="/downloads/">Download</a>
                 <a href="/leaderboard/">Leaderboard</a>
+                <a href="/rules/">Rules</a>
                 <a class="active" href="/developers/">For Developers</a>
                 <a href="/about/">About</a>
+                <a href="/contact/">Contact</a>
             </nav>
 
             <button class="iconbtn" id="menuBtn" aria-label="Open menu" aria-expanded="false">☰</button>
@@ -40,17 +38,18 @@
     </div>
 
     <div class="container mobilemenu glass" id="mobileMenu" hidden>
+        <a href="/">Welcome</a>
         <a href="/downloads/">Download</a>
         <a href="/leaderboard/">Leaderboard</a>
+        <a href="/rules/">Rules</a>
         <a href="/developers/">For Developers</a>
         <a href="/about/">About</a>
-        <a href="/">Home</a>
+        <a href="/contact/">Contact</a>
         <a href="https://github.com/YOUR_GITHUB" target="_blank" rel="noopener">GitHub</a>
     </div>
 </header>
 
 <main>
-    <!-- HERO -->
     <section class="section container">
         <div class="dev-hero reveal up">
             <div class="dev-hero-left">
@@ -65,7 +64,6 @@
                 <div class="actions" style="margin-top:16px;">
                     <a class="btn primary" href="/leaderboard/">View leaderboard</a>
                     <a class="btn" href="/downloads/">Download</a>
-                    <a class="btn" href="https://github.com/YOUR_GITHUB" target="_blank" rel="noopener">GitHub</a>
                 </div>
 
                 <div class="dev-badges">
@@ -102,14 +100,10 @@
                     </div>
                 </div>
 
-                <div class="dev-minifoot muted tiny">
-                    Replace the GitHub link + deployment line with your real URLs when ready.
-                </div>
             </div>
         </div>
     </section>
 
-    <!-- RECRUITER-FRIENDLY HIGHLIGHTS -->
     <section class="section container">
         <div class="section-head reveal up">
             <h2 class="h2">Engineering highlights</h2>
@@ -148,7 +142,6 @@
         </div>
     </section>
 
-    <!-- ARCHITECTURE -->
     <section class="section container">
         <div class="section-head reveal up">
             <h2 class="h2">System architecture</h2>
@@ -198,16 +191,15 @@
         </article>
     </section>
 
-    <!-- TECH STACK -->
     <section class="section container">
         <div class="section-head reveal up">
             <h2 class="h2">Tech stack</h2>
             <p class="muted">
-                Replace or refine any of these items to match your final implementation.
+                Core technologies used across the stack.
             </p>
         </div>
 
-        <div class="dev-grid-3">
+        <div class="dev-grid-2">
             <article class="glass dev-stack reveal up">
                 <h3 class="h3">Backend</h3>
                 <ul class="dev-list">
@@ -219,11 +211,21 @@
             </article>
 
             <article class="glass dev-stack reveal up">
-                <h3 class="h3">Frontend</h3>
+                <h3 class="h3">Desktop client</h3>
+                <ul class="dev-list">
+                    <li>Java Swing UI</li>
+                    <li>Game loop + rendering</li>
+                    <li>Keyboard input handling</li>
+                    <li>API client for leaderboard</li>
+                </ul>
+            </article>
+
+            <article class="glass dev-stack reveal up">
+                <h3 class="h3">Web frontend</h3>
                 <ul class="dev-list">
                     <li>Static HTML/CSS/JS served by Spring Boot</li>
                     <li>Responsive layout + glass UI</li>
-                    <li>Leaderboard page w/ client-side search</li>
+                    <li>Leaderboard page with client-side search</li>
                 </ul>
             </article>
 
@@ -238,7 +240,6 @@
         </div>
     </section>
 
-    <!-- API REFERENCE -->
     <section class="section container">
         <div class="section-head reveal up">
             <h2 class="h2">API reference</h2>
@@ -339,31 +340,8 @@ X-Session-Token: &lt;token&gt;</code></pre>
         </div>
     </section>
 
-    <!-- LINKS / CTA (product-style) -->
-    <section class="section container">
-        <div class="cta glass reveal up">
-            <div class="cta-left">
-                <h2 class="h2">Links</h2>
-                <p class="muted">
-                    Try the leaderboard, download the desktop build, or review the source code.
-                </p>
-                <div class="actions">
-                    <a class="btn" href="/leaderboard/">Leaderboard</a>
-                    <a class="btn" href="/downloads/">Download</a>
-                    <a class="btn primary" href="https://github.com/YOUR_GITHUB" target="_blank" rel="noopener">GitHub</a>
-                </div>
-            </div>
+    <button id="scrollTopBtn" class="scroll-top-btn" aria-label="Scroll to top" hidden>&#8593;</button>
 
-            <div class="cta-right">
-                <div class="muted tiny">
-                    Deployed: <span class="grad">YOUR_DOMAIN_HERE</span><br/>
-                    Repository: <span class="grad">YOUR_GITHUB_HERE</span>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- FOOTER -->
     <footer class="sitefooter">
         <div class="container footgrid">
             <div class="footbrand">
@@ -374,26 +352,26 @@ X-Session-Token: &lt;token&gt;</code></pre>
           </span>
                     <span class="brand-name">Snake</span>
                 </div>
-                <p class="muted">
-                    Online leaderboards + a modern web presence, backed by a Spring Boot service.
-                </p>
             </div>
 
             <div class="footcol">
                 <h4>Project</h4>
+                <a href="/">Home</a>
                 <a href="/downloads/">Download</a>
                 <a href="/leaderboard/">Leaderboard</a>
-                <a href="/">Home</a>
+                <a href="/rules/">Rules</a>
             </div>
 
             <div class="footcol">
                 <h4>Info</h4>
                 <a href="/developers/">For Developers</a>
                 <a href="/about/">About</a>
+                <a href="/contact/">Contact</a>
             </div>
 
             <div class="footcol">
                 <h4>Links</h4>
+                <a href="https://YOUR_PORTFOLIO" target="_blank" rel="noopener">Portfolio</a>
                 <a href="https://github.com/YOUR_GITHUB" target="_blank" rel="noopener">GitHub</a>
             </div>
         </div>

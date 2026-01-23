@@ -1,75 +1,43 @@
-# 🐍 Snake Leaderboard API
+# Snake Leaderboard API
 
-Cloud-hosted backend service for an online leaderboard used by a Java Swing Snake game.
+Backend service and static site for a modern Snake game. The Java Swing client and the web UI share the same REST API for leaderboards and score submission.
 
-This project provides secure session-based score submission, leaderboard queries, and database-backed persistence with automatic migrations and cleanup.
+Live deployment: https://fit-maisie-khumoyun-7d8e10bd.koyeb.app
+Health check: GET /health -> {"status":"up"}
 
----
+## Highlights
+- Session-based score submission with SHA-256 token hashing (raw tokens never stored)
+- Best-score upsert per player/map/mode/difficulty
+- Ranked leaderboard queries with pagination and mode-aware sorting
+- Database-backed rate limiting for score submissions (30 requests per minute per IP)
+- Flyway migrations and scheduled cleanup of expired sessions
+- Single-origin hosting for API and static site
 
-## 🌍 Live Deployment
+## Architecture
+Clients (Java Swing desktop + web UI) -> Spring Boot API -> PostgreSQL
 
-**Base URL:**  
-https://fit-maisie-khumoyun-7d8e10bd.koyeb.app
+Key modules
+- `src/main/java/com/snakeleaderboard/api`: REST controllers
+- `src/main/java/com/snakeleaderboard/service`: business logic and SQL via `JdbcClient`
+- `src/main/java/com/snakeleaderboard/config`: scheduling, routing, and rate limiting
+- `src/main/resources/db/migration`: schema migrations
+- `src/main/resources/static`: marketing site and leaderboard UI
 
-**Health Check:**  
-`GET /health`  
-Response:
-```json
-{ "status": "up" }
-```
+## Tech stack
+- Java 21
+- Spring Boot 4.0.1
+- PostgreSQL
+- Flyway
+- Spring JdbcClient
+- GitHub Actions (CI) and Koyeb (deploy)
 
----
+## API
+Base path: `/api`
 
-## 🧰 Tech Stack
+### Start session
+POST `/api/session`
 
-- **Java 21**
-- **Spring Boot**
-- **PostgreSQL** (Neon)
-- **Flyway** (database migrations)
-- **Koyeb** (cloud hosting, HTTPS)
-- **JDBC Client** (data access)
-
----
-
-## 📦 Features
-
-- Secure, short-lived sessions for score submission
-- Token hashing (raw session tokens are never stored)
-- Automatic session expiration (30-minute TTL)
-- Scheduled cleanup of expired sessions
-- Ranked leaderboard queries with indexing
-- Duplicate prevention (best score per player/map/mode/difficulty)
-- IP-based rate limiting for score submissions
-- Health endpoint for uptime monitoring
-
----
-
-## 🔐 Session Model
-
-Clients must request a session before submitting a score.
-
-Sessions:
-- Are identified by `sessionId` (UUID)
-- Use a random token (`sessionToken`)
-- Store only a **SHA-256 hash** of the token in the database
-- Expire automatically after **30 minutes**
-- Are periodically deleted by a scheduled cleanup job
-
----
-
-## 📡 API Endpoints
-
-All endpoints are under `/api`
-
----
-
-### ▶ Start Session
-
-Creates a temporary session required for submitting scores.
-
-**POST** `/api/session`
-
-**Response**
+Response
 ```json
 {
   "sessionId": "2b7f2f1a-6f3b-4a2f-a2dd-8c6d49d3d3e1",
@@ -78,45 +46,16 @@ Creates a temporary session required for submitting scores.
 }
 ```
 
----
+### Submit score
+POST `/api/scores`
 
-### 📊 Get Leaderboard
-
-**GET**  
-`/api/leaderboard?mapId=2&mode=MAP_SELECT&difficulty=NORMAL&limit=10&offset=0`
-
-**Query Parameters**
-| Name | Required | Description |
-|------|----------|-------------|
-| `mapId` | Yes | Map identifier |
-| `mode` | Yes | Game mode |
-| `difficulty` | No | Difficulty level |
-| `limit` | No | Max results (default: 10) |
-| `offset` | No | Pagination offset (default: 0) |
-
-**Response**
-```json
-{
-  "mapId": 2,
-  "mode": "MAP_SELECT",
-  "difficulty": "NORMAL",
-  "entries": []
-}
-```
-
----
-
-### 🏆 Submit Score
-
-**POST** `/api/scores`
-
-**Headers**
+Headers
 ```
 X-Session-Id: <sessionId>
 X-Session-Token: <sessionToken>
 ```
 
-**Body**
+Body
 ```json
 {
   "playerName": "player1",
@@ -129,107 +68,138 @@ X-Session-Token: <sessionToken>
 }
 ```
 
-**Response (201 Created)**
+Response (201)
 ```json
 {
   "scoreId": "c3f2f7b2-7c4e-4f0b-8f0c-1db4c2a9c6ab"
 }
 ```
 
----
+### Get leaderboard
+GET `/api/leaderboard?mapId=2&mode=MAP_SELECT&difficulty=NORMAL&limit=10&offset=0`
 
-## ⚙ Rate Limiting
+Query parameters
+| Name | Required | Description |
+| --- | --- | --- |
+| `mapId` | Yes | Map identifier (MAP_SELECT supports 0 for any map) |
+| `mode` | Yes | Game mode (STANDARD, MAP_SELECT, RACE) |
+| `difficulty` | No | Difficulty (omit or use ANY in clients) |
+| `limit` | No | Max results (default 10, clamped to 1-50) |
+| `offset` | No | Pagination offset (default 0) |
 
-Score submissions are protected with IP-based rate limiting:
+Notes
+- RACE ignores `mapId` and ranks by furthest map, then score, then time.
+- MAP_SELECT supports `mapId=0` to aggregate any map.
 
-- Applies to: `POST /api/scores`
-- Limit: **30 requests per minute per IP**
-- Returns:
+### Service info
+GET `/api`
+
+Response
 ```json
-{ "error": "Too Many Requests" }
+{
+  "service": "snake-leaderboard-api",
+  "status": "ok"
+}
 ```
-with HTTP status `429`
 
----
+### Health
+GET `/health`
 
-## 🗄 Database Schema
+Response
+```json
+{
+  "status": "up"
+}
+```
 
+## Data model
 ### `scores`
-- Stores all leaderboard entries
-- Enforces unique "best score" per:
-  ```
-  (player_name, map_id, mode, difficulty)
-  ```
-- Ranked by:
-  - Highest score
-  - Longest survival time
-  - Earliest submission time
+- One row per player/map/mode/difficulty (best score only)
+- Ranking order: highest score, longest survival time, earliest submission
+- Indexed for fast leaderboard queries
 
 ### `sessions`
-- Stores active sessions
-- Fields:
-  - `id` (UUID)
-  - `token_hash` (SHA-256)
-  - `created_at`
-  - `expires_at`
-- Indexed on `expires_at` for fast cleanup
+- UUID session id and SHA-256 token hash
+- Short-lived sessions (30 minute TTL)
+- Indexed by `expires_at` for cleanup
 
----
+### `rate_limits`
+- One row per IP with a rolling 60-second window and count
+- Used by the rate limit filter for multi-instance safe throttling
 
-## 🧪 Local Development
+## Validation and security
+- Player name allows letters, numbers, spaces, underscore, and dash
+- Scores, map ids, and survival time are range-validated
+- Session tokens are random and only their hash is stored
+- Score submissions are rate limited per IP
 
-### Requirements
+## Rate limit config
+The filter can trust `X-Forwarded-For` when your proxy is trusted.
+
+Example
+```
+rate_limit.trust_forwarded_headers=true
+rate_limit.trusted_proxies=203.0.113.4,10.0.0.0/8
+```
+
+Use `rate_limit.trusted_proxies=*` to trust all proxies (not recommended).
+
+## Web UI
+Static pages are served by Spring Boot from `src/main/resources/static`:
+- `/` landing page with a demo
+- `/leaderboard/` live leaderboard UI
+- `/downloads/`, `/developers/`, `/about/`
+- `/rules/` gameplay rules
+- `/contact/` contact page
+
+Update placeholder links in the HTML pages to point to your GitHub, portfolio, and email.
+
+## Local development
+Requirements
 - Java 21
 - PostgreSQL
-- Maven (or Maven Wrapper)
 
-### Environment Variables
-Set these before running:
-```
-SPRING_DATASOURCE_URL
-SPRING_DATASOURCE_USERNAME
-SPRING_DATASOURCE_PASSWORD
-```
-
-Example:
+Environment variables
 ```
 SPRING_DATASOURCE_URL=jdbc:postgresql://localhost:5432/snakeleaderboard
 SPRING_DATASOURCE_USERNAME=snakeuser
 SPRING_DATASOURCE_PASSWORD=snakepass
 ```
 
----
-
-## ▶ Run Locally
-
-Using Maven Wrapper:
+Run locally
 ```bash
 ./mvnw spring-boot:run
 ```
 
-Or build and run:
+Build and run
 ```bash
 ./mvnw clean package
 java -jar target/snake-leaderboard-api-0.0.1-SNAPSHOT.jar
 ```
 
----
+## Database migrations
+Flyway runs migrations automatically on startup from `src/main/resources/db/migration`.
 
-## 🚀 Deployment
+## Testing
+Unit tests
+```bash
+./mvnw test
+```
 
-- Hosted on **Koyeb**
-- Uses **Neon PostgreSQL**
-- Flyway automatically applies schema migrations on startup
-- Deploys automatically from GitHub on push (CI/CD ready)
+Integration tests and E2E tests (Testcontainers, requires Docker)
+```bash
+./mvnw verify
+```
 
----
+## CI and deployment
+- CI: `.github/workflows/ci.yml` runs tests on every push and PR
+- Deploy: `.github/workflows/deploy.yml` deploys to Koyeb after a successful CI run
 
-## 📄 License
+Required secrets for deploy:
+- `KOYEB_API_TOKEN`
+- `SPRING_DATASOURCE_URL`
+- `SPRING_DATASOURCE_USERNAME`
+- `SPRING_DATASOURCE_PASSWORD`
 
-MIT (or choose your preferred license)
-
----
-
-## 👤 Author
-
-Built by a Java Developer learning full-stack backend engineering through real-world cloud deployment and production-grade system design.
+## License
+GPL-3.0. See `LICENSE`.

@@ -1,69 +1,43 @@
-name: Deploy to Koyeb
+- name: Install and configure Koyeb CLI
+  uses: koyeb-community/koyeb-actions@v2
+  with:
+    api_token: "${{ secrets.KOYEB_API_TOKEN }}"
 
-on:
-  workflow_run:
-    workflows: ["CI"]
-    types:
-      - completed
+# (Optional but recommended) Create/update Koyeb secrets from GitHub Secrets
+- name: Create Koyeb secret - SPRING_DATASOURCE_URL
+  uses: koyeb/action-git-deploy/secret@v1
+  with:
+    secret-name: SPRING_DATASOURCE_URL
+    secret-value: "${{ secrets.SPRING_DATASOURCE_URL }}"
 
-jobs:
-  deploy:
-    if: ${{ github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.head_branch == 'main' }}
-    runs-on: ubuntu-latest
-    concurrency:
-      group: koyeb-main
-      cancel-in-progress: true
+- name: Create Koyeb secret - SPRING_DATASOURCE_USERNAME
+  uses: koyeb/action-git-deploy/secret@v1
+  with:
+    secret-name: SPRING_DATASOURCE_USERNAME
+    secret-value: "${{ secrets.SPRING_DATASOURCE_USERNAME }}"
 
-    steps:
-      - name: Checkout the exact commit that passed CI
-        uses: actions/checkout@v4
-        with:
-          ref: ${{ github.event.workflow_run.head_sha }}
+- name: Create Koyeb secret - SPRING_DATASOURCE_PASSWORD
+  uses: koyeb/action-git-deploy/secret@v1
+  with:
+    secret-name: SPRING_DATASOURCE_PASSWORD
+    secret-value: "${{ secrets.SPRING_DATASOURCE_PASSWORD }}"
 
-      - name: Install and configure Koyeb CLI
-        uses: koyeb-community/koyeb-actions@v2
-        with:
-          api_token: "${{ secrets.KOYEB_API_TOKEN }}"
+# One-time cleanup: ensure FRA is removed before the action updates the service
+- name: Remove FRA region if present (one-time fix)
+  run: koyeb service update fit-maisie/snake-leaderboard-backend --region '!fra'
 
-      # Create/update Koyeb secrets from GitHub Secrets
-      - name: Create Koyeb secret - SPRING_DATASOURCE_URL
-        uses: koyeb/action-git-deploy/secret@v1
-        with:
-          secret-name: SPRING_DATASOURCE_URL
-          secret-value: "${{ secrets.SPRING_DATASOURCE_URL }}"
+- name: Build and deploy to Koyeb
+  uses: koyeb/action-git-deploy@v1
+  with:
+    app-name: fit-maisie
+    service-name: snake-leaderboard-backend
 
-      - name: Create Koyeb secret - SPRING_DATASOURCE_USERNAME
-        uses: koyeb/action-git-deploy/secret@v1
-        with:
-          secret-name: SPRING_DATASOURCE_USERNAME
-          secret-value: "${{ secrets.SPRING_DATASOURCE_USERNAME }}"
+    # ✅ THIS is the correct input name
+    service-regions: na
 
-      - name: Create Koyeb secret - SPRING_DATASOURCE_PASSWORD
-        uses: koyeb/action-git-deploy/secret@v1
-        with:
-          secret-name: SPRING_DATASOURCE_PASSWORD
-          secret-value: "${{ secrets.SPRING_DATASOURCE_PASSWORD }}"
+    service-ports: "8080:http"
+    service-routes: "/:8080"
+    service-checks: "8080:http:/health"
 
-      # ONE-TIME cleanup: remove Frankfurt (fra) if it exists on the service
-      # After your deploy succeeds once, you can delete this step.
-      - name: Remove FRA region if present (one-time fix)
-        run: koyeb service update fit-maisie/snake-leaderboard-backend --region '!fra'
-
-      - name: Build and deploy to Koyeb
-        uses: koyeb/action-git-deploy@v1
-        with:
-          # choose stable names so it updates the same service each time
-          app-name: fit-maisie
-          service-name: snake-leaderboard-backend
-
-          # FORCE only North America (prevents fra from being used)
-          regions: na
-
-          # Your Spring port (8080 recommended)
-          service-ports: "8080:http"
-          service-routes: "/:8080"
-          service-checks: "8080:http:/health"
-
-          # Inject env vars (from Koyeb secrets created above)
-          service-env: >-
-            PORT=8080,SPRING_DATASOURCE_URL=@SPRING_DATASOURCE_URL,SPRING_DATASOURCE_USERNAME=@SPRING_DATASOURCE_USERNAME,SPRING_DATASOURCE_PASSWORD=@SPRING_DATASOURCE_PASSWORD
+    service-env: >-
+      PORT=8080,SPRING_DATASOURCE_URL=@SPRING_DATASOURCE_URL,SPRING_DATASOURCE_USERNAME=@SPRING_DATASOURCE_USERNAME,SPRING_DATASOURCE_PASSWORD=@SPRING_DATASOURCE_PASSWORD

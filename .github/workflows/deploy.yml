@@ -53,9 +53,15 @@ jobs:
           app-name: fit-maisie
           service-name: snake-leaderboard-backend
 
+          # ✅ Force region + instance size
           service-regions: na
-          healthy-timeout: 400
+          service-instance-type: micro
 
+          # ✅ Deploy EXACT commit that passed CI (prevents "wrong version" confusion)
+          git-sha: ${{ github.event.workflow_run.head_sha }}
+
+          # give Koyeb time to become healthy
+          healthy-timeout: 400
 
           service-ports: "8080:http"
           service-routes: "/:8080"

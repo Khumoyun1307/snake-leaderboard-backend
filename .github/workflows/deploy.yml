@@ -44,29 +44,22 @@ jobs:
           secret-name: SPRING_DATASOURCE_PASSWORD
           secret-value: "${{ secrets.SPRING_DATASOURCE_PASSWORD }}"
 
-      # One-time cleanup: remove Frankfurt (fra) if it was ever added to this service
-      - name: Remove FRA region if present (one-time fix)
-        run: koyeb service update fit-maisie/snake-leaderboard-backend --region '!fra'
-
-      # (Optional) Debug: print current service config (helps confirm regions are correct)
       - name: Debug - show current service config (first 200 lines)
         run: koyeb service get snake-leaderboard-backend --app fit-maisie -o json | head -n 200
 
       - name: Build and deploy to Koyeb
         uses: koyeb/action-git-deploy@v1
         with:
-          # stable names so it updates the same service each time
           app-name: fit-maisie
           service-name: snake-leaderboard-backend
 
-          # ✅ Correct input name for this action (forces North America only)
           service-regions: na
+          healthy-timeout: 400
 
-          # Your Spring port (8080 recommended)
+
           service-ports: "8080:http"
           service-routes: "/:8080"
-          service-checks: "8080:http:/health"
+          service-checks: "8080:http:/actuator/health"
 
-          # Inject env vars (from Koyeb secrets created above)
           service-env: >-
             PORT=8080,SPRING_DATASOURCE_URL=@SPRING_DATASOURCE_URL,SPRING_DATASOURCE_USERNAME=@SPRING_DATASOURCE_USERNAME,SPRING_DATASOURCE_PASSWORD=@SPRING_DATASOURCE_PASSWORD

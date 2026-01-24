@@ -24,15 +24,17 @@ public class SessionRepository {
                 .update();
     }
 
-    public int countValidSessions(UUID sessionId, String tokenHash, OffsetDateTime now) {
-        Integer count = jdbc.sql("""
-                SELECT COUNT(*) FROM sessions
-                WHERE id = ? AND token_hash = ? AND expires_at > ?
+    public int countValidSessions(UUID sessionId, String tokenHash, UUID playerId, OffsetDateTime now) {
+        return jdbc.sql("""
+                UPDATE sessions
+                SET player_id = COALESCE(player_id, ?)
+                WHERE id = ?
+                  AND token_hash = ?
+                  AND expires_at > ?
+                  AND (player_id IS NULL OR player_id = ?)
                 """)
-                .params(sessionId, tokenHash, now)
-                .query(Integer.class)
-                .single();
-        return count == null ? 0 : count;
+                .params(playerId, sessionId, tokenHash, now, playerId)
+                .update();
     }
 
     public int deleteExpiredSessions(OffsetDateTime now) {

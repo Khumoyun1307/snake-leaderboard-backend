@@ -1,6 +1,8 @@
-package com.snakeleaderboard.api;
+package com.snakeleaderboard.controller;
 
 import com.snakeleaderboard.config.RateLimitFilter;
+import com.snakeleaderboard.domain.Difficulty;
+import com.snakeleaderboard.domain.GameMode;
 import com.snakeleaderboard.dto.SubmitScoreRequest;
 import com.snakeleaderboard.error.ApiExceptionHandler;
 import com.snakeleaderboard.service.ScoreService;
@@ -54,7 +56,7 @@ class ScoreControllerTest {
         UUID sessionId = UUID.randomUUID();
         UUID scoreId = UUID.randomUUID();
 
-        when(sessionService.isValidSession(eq(sessionId), anyString())).thenReturn(true);
+        when(sessionService.isValidSession(eq(sessionId), anyString(), any())).thenReturn(true);
         when(scoreService.saveScore(any())).thenReturn(scoreId);
 
         mockMvc.perform(post("/api/scores")
@@ -70,7 +72,7 @@ class ScoreControllerTest {
     void submitScore_returns401WhenSessionInvalid() throws Exception {
         UUID sessionId = UUID.randomUUID();
 
-        when(sessionService.isValidSession(eq(sessionId), anyString())).thenReturn(false);
+        when(sessionService.isValidSession(eq(sessionId), anyString(), any())).thenReturn(false);
 
         mockMvc.perform(post("/api/scores")
                         .header("X-Session-Id", sessionId)
@@ -107,15 +109,15 @@ class ScoreControllerTest {
     void submitScore_returns400WhenValidationFails() throws Exception {
         UUID sessionId = UUID.randomUUID();
 
-        when(sessionService.isValidSession(eq(sessionId), anyString())).thenReturn(true);
+        when(sessionService.isValidSession(eq(sessionId), anyString(), any())).thenReturn(true);
 
         SubmitScoreRequest invalid = new SubmitScoreRequest(
                 UUID.randomUUID(),
                 "",
                 10,
                 1,
-                "MAP_SELECT",
-                "NORMAL",
+                GameMode.MAP_SELECT,
+                Difficulty.NORMAL,
                 1000L,
                 "1.0.0"
         );
@@ -133,15 +135,15 @@ class ScoreControllerTest {
     void submitScore_invalidScore_returns400() throws Exception {
         UUID sessionId = UUID.randomUUID();
 
-        when(sessionService.isValidSession(eq(sessionId), anyString())).thenReturn(true);
+        when(sessionService.isValidSession(eq(sessionId), anyString(), any())).thenReturn(true);
 
         SubmitScoreRequest invalid = new SubmitScoreRequest(
                 UUID.randomUUID(),
                 "player1",
                 2_000_001,
                 1,
-                "MAP_SELECT",
-                "NORMAL",
+                GameMode.MAP_SELECT,
+                Difficulty.NORMAL,
                 1000L,
                 "1.0.0"
         );
@@ -161,8 +163,8 @@ class ScoreControllerTest {
                 "player1",
                 42,
                 2,
-                "MAP_SELECT",
-                "NORMAL",
+                GameMode.MAP_SELECT,
+                Difficulty.NORMAL,
                 26000L,
                 "1.0.0"
         );

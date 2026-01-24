@@ -32,8 +32,8 @@ public class ScoreService {
                 req.playerName(),
                 req.score(),
                 req.mapId(),
-                req.mode(),
-                req.difficulty(),
+                req.mode().name(),
+                req.difficulty().name(),
                 req.timeSurvivedMs(),
                 req.gameVersion(),
                 createdAt
@@ -43,6 +43,6 @@ public class ScoreService {
             return ids.get(0);
         }
 
-        return scoreRepository.findScoreId(req.playerId(), req.mapId(), req.mode(), req.difficulty());
+        return scoreRepository.findScoreId(req.playerId(), req.mapId(), req.mode().name(), req.difficulty().name());
     }
 }

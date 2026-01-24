@@ -1,4 +1,4 @@
-package com.snakeleaderboard.api;
+package com.snakeleaderboard.controller;
 
 import com.snakeleaderboard.config.RateLimitFilter;
 import com.snakeleaderboard.dto.StartSessionResponse;

@@ -1,4 +1,4 @@
-package com.snakeleaderboard.api;
+package com.snakeleaderboard.controller;
 
 import com.snakeleaderboard.config.RateLimitFilter;
 import com.snakeleaderboard.dto.LeaderboardEntry;
@@ -77,6 +77,32 @@ class LeaderboardControllerTest {
     void leaderboard_missingMode_returns400() throws Exception {
         mockMvc.perform(get("/api/leaderboard")
                         .param("mapId", "2"))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    void leaderboard_negativeMapId_returns400() throws Exception {
+        mockMvc.perform(get("/api/leaderboard")
+                        .param("mapId", "-1")
+                        .param("mode", "MAP_SELECT"))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    void leaderboard_limitTooHigh_returns400() throws Exception {
+        mockMvc.perform(get("/api/leaderboard")
+                        .param("mapId", "2")
+                        .param("mode", "MAP_SELECT")
+                        .param("limit", "51"))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    void leaderboard_negativeOffset_returns400() throws Exception {
+        mockMvc.perform(get("/api/leaderboard")
+                        .param("mapId", "2")
+                        .param("mode", "MAP_SELECT")
+                        .param("offset", "-1"))
                 .andExpect(status().isBadRequest());
     }
 }

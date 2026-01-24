@@ -36,14 +36,15 @@ public class SessionService {
         return new StartSessionResponse(sessionId, token, expiresAt.toInstant());
     }
 
-    public boolean isValidSession(UUID sessionId, String token) {
-        if (sessionId == null || token == null || token.isBlank()) return false;
+    public boolean isValidSession(UUID sessionId, String token, UUID playerId) {
+        if (sessionId == null || token == null || token.isBlank() || playerId == null) return false;
 
         String tokenHash = sha256Hex(token);
 
         int count = sessionRepository.countValidSessions(
                 sessionId,
                 tokenHash,
+                playerId,
                 java.time.OffsetDateTime.now(java.time.ZoneOffset.UTC)
         );
 

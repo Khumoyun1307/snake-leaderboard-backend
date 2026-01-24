@@ -1,6 +1,7 @@
 package com.snakeleaderboard.dto;
 
-import com.snakeleaderboard.validation.ValidationPatterns;
+import com.snakeleaderboard.domain.Difficulty;
+import com.snakeleaderboard.domain.GameMode;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
@@ -30,15 +31,11 @@ public record SubmitScoreRequest(
         @Max(10_000) // sanity limit; adjust later
         Integer mapId,
 
-        @NotBlank
-        @Size(max = 32)
-        @Pattern(regexp = ValidationPatterns.MODE_PATTERN, message = "mode must be MAP_SELECT or RACE")
-        String mode,
+        @NotNull
+        GameMode mode,
 
-        @NotBlank
-        @Size(max = 32)
-        @Pattern(regexp = ValidationPatterns.DIFFICULTY_PATTERN, message = "difficulty must be EASY, NORMAL, or HARD")
-        String difficulty,
+        @NotNull
+        Difficulty difficulty,
 
         @Min(0)
         @Max(86_400_000) // max 24h in ms

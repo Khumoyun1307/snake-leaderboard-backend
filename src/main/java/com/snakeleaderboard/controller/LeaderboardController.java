@@ -1,9 +1,11 @@
-package com.snakeleaderboard.api;
+package com.snakeleaderboard.controller;
 
+import com.snakeleaderboard.domain.DifficultyFilter;
+import com.snakeleaderboard.domain.GameMode;
 import com.snakeleaderboard.dto.LeaderboardResponse;
 import com.snakeleaderboard.service.LeaderboardService;
-import com.snakeleaderboard.validation.ValidationPatterns;
-import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -23,21 +25,29 @@ public class LeaderboardController {
 
     @GetMapping("/leaderboard")
     public LeaderboardResponse leaderboard(
-            @RequestParam int mapId,
             @RequestParam
-            @Pattern(regexp = ValidationPatterns.MODE_PATTERN, message = "mode must be MAP_SELECT or RACE")
-            String mode,
+            @Min(0)
+            @Max(10_000)
+            int mapId,
+            @RequestParam
+            GameMode mode,
             @RequestParam(required = false)
-            @Pattern(regexp = ValidationPatterns.DIFFICULTY_FILTER_PATTERN, message = "difficulty must be ANY, EASY, NORMAL, or HARD")
-            String difficulty,
-            @RequestParam(defaultValue = "10") int limit,
-            @RequestParam(defaultValue = "0") int offset
+            DifficultyFilter difficulty,
+            @RequestParam(defaultValue = "10")
+            @Min(1)
+            @Max(50)
+            int limit,
+            @RequestParam(defaultValue = "0")
+            @Min(0)
+            @Max(10_000)
+            int offset
     ) {
+        String difficultyValue = difficulty == null ? null : difficulty.name();
         return new LeaderboardResponse(
                 mapId,
-                mode,
-                difficulty,
-                leaderboardService.getTop(mapId, mode, difficulty, limit, offset)
+                mode.name(),
+                difficultyValue,
+                leaderboardService.getTop(mapId, mode.name(), difficultyValue, limit, offset)
         );
     }
 }

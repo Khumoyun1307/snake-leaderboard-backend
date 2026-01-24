@@ -1,4 +1,4 @@
-package com.snakeleaderboard.api;
+package com.snakeleaderboard.controller;
 
 import com.snakeleaderboard.dto.SubmitScoreRequest;
 import com.snakeleaderboard.service.ScoreService;
@@ -30,7 +30,7 @@ public class ScoreController {
             @RequestHeader("X-Session-Token") String sessionToken,
             @Valid @RequestBody SubmitScoreRequest request
     ) {
-        if (!sessionService.isValidSession(sessionId, sessionToken)) {
+        if (!sessionService.isValidSession(sessionId, sessionToken, request.playerId())) {
             throw new UnauthorizedException("Invalid or expired session");
         }
 

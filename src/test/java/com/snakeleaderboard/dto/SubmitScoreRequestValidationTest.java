@@ -1,5 +1,7 @@
 package com.snakeleaderboard.dto;
 
+import com.snakeleaderboard.domain.Difficulty;
+import com.snakeleaderboard.domain.GameMode;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Validation;
 import jakarta.validation.Validator;
@@ -38,8 +40,8 @@ class SubmitScoreRequestValidationTest {
                 "player1",
                 42,
                 2,
-                "MAP_SELECT",
-                "NORMAL",
+                GameMode.MAP_SELECT,
+                Difficulty.NORMAL,
                 26000L,
                 "1.0.0"
         );
@@ -56,8 +58,8 @@ class SubmitScoreRequestValidationTest {
                 "",
                 42,
                 2,
-                "MAP_SELECT",
-                "NORMAL",
+                GameMode.MAP_SELECT,
+                Difficulty.NORMAL,
                 26000L,
                 "1.0.0"
         );
@@ -74,8 +76,8 @@ class SubmitScoreRequestValidationTest {
                 "player!@#",
                 42,
                 2,
-                "MAP_SELECT",
-                "NORMAL",
+                GameMode.MAP_SELECT,
+                Difficulty.NORMAL,
                 26000L,
                 "1.0.0"
         );
@@ -92,8 +94,8 @@ class SubmitScoreRequestValidationTest {
                 "player1",
                 2_000_001,
                 2,
-                "MAP_SELECT",
-                "NORMAL",
+                GameMode.MAP_SELECT,
+                Difficulty.NORMAL,
                 26000L,
                 "1.0.0"
         );
@@ -104,14 +106,14 @@ class SubmitScoreRequestValidationTest {
     }
 
     @Test
-    void blankDifficulty_isRejected() {
+    void nullDifficulty_isRejected() {
         SubmitScoreRequest request = new SubmitScoreRequest(
                 PLAYER_ID,
                 "player1",
                 42,
                 2,
-                "MAP_SELECT",
-                "",
+                GameMode.MAP_SELECT,
+                null,
                 26000L,
                 "1.0.0"
         );
@@ -128,8 +130,8 @@ class SubmitScoreRequestValidationTest {
                 "player1",
                 42,
                 -1,
-                "MAP_SELECT",
-                "NORMAL",
+                GameMode.MAP_SELECT,
+                Difficulty.NORMAL,
                 26000L,
                 "1.0.0"
         );
@@ -140,14 +142,14 @@ class SubmitScoreRequestValidationTest {
     }
 
     @Test
-    void blankMode_isRejected() {
+    void nullMode_isRejected() {
         SubmitScoreRequest request = new SubmitScoreRequest(
                 PLAYER_ID,
                 "player1",
                 42,
                 2,
-                "",
-                "NORMAL",
+                null,
+                Difficulty.NORMAL,
                 26000L,
                 "1.0.0"
         );
@@ -164,8 +166,8 @@ class SubmitScoreRequestValidationTest {
                 "player1",
                 42,
                 2,
-                "MAP_SELECT",
-                "NORMAL",
+                GameMode.MAP_SELECT,
+                Difficulty.NORMAL,
                 86_400_001L,
                 "1.0.0"
         );
@@ -182,8 +184,8 @@ class SubmitScoreRequestValidationTest {
                 "player_name_with_25_chars",
                 42,
                 2,
-                "MAP_SELECT",
-                "NORMAL",
+                GameMode.MAP_SELECT,
+                Difficulty.NORMAL,
                 26000L,
                 "1.0.0"
         );
@@ -194,86 +196,14 @@ class SubmitScoreRequestValidationTest {
     }
 
     @Test
-    void modeTooLong_isRejected() {
-        SubmitScoreRequest request = new SubmitScoreRequest(
-                PLAYER_ID,
-                "player1",
-                42,
-                2,
-                "M".repeat(33),
-                "NORMAL",
-                26000L,
-                "1.0.0"
-        );
-
-        Set<ConstraintViolation<SubmitScoreRequest>> violations = validator.validate(request);
-
-        assertThat(violations).anyMatch(v -> v.getPropertyPath().toString().equals("mode"));
-    }
-
-    @Test
-    void difficultyTooLong_isRejected() {
-        SubmitScoreRequest request = new SubmitScoreRequest(
-                PLAYER_ID,
-                "player1",
-                42,
-                2,
-                "MAP_SELECT",
-                "D".repeat(33),
-                26000L,
-                "1.0.0"
-        );
-
-        Set<ConstraintViolation<SubmitScoreRequest>> violations = validator.validate(request);
-
-        assertThat(violations).anyMatch(v -> v.getPropertyPath().toString().equals("difficulty"));
-    }
-
-    @Test
-    void invalidMode_isRejected() {
-        SubmitScoreRequest request = new SubmitScoreRequest(
-                PLAYER_ID,
-                "player1",
-                42,
-                2,
-                "SPEEDRUN",
-                "NORMAL",
-                26000L,
-                "1.0.0"
-        );
-
-        Set<ConstraintViolation<SubmitScoreRequest>> violations = validator.validate(request);
-
-        assertThat(violations).anyMatch(v -> v.getPropertyPath().toString().equals("mode"));
-    }
-
-    @Test
-    void invalidDifficulty_isRejected() {
-        SubmitScoreRequest request = new SubmitScoreRequest(
-                PLAYER_ID,
-                "player1",
-                42,
-                2,
-                "MAP_SELECT",
-                "IMPOSSIBLE",
-                26000L,
-                "1.0.0"
-        );
-
-        Set<ConstraintViolation<SubmitScoreRequest>> violations = validator.validate(request);
-
-        assertThat(violations).anyMatch(v -> v.getPropertyPath().toString().equals("difficulty"));
-    }
-
-    @Test
     void gameVersionTooLong_isRejected() {
         SubmitScoreRequest request = new SubmitScoreRequest(
                 PLAYER_ID,
                 "player1",
                 42,
                 2,
-                "MAP_SELECT",
-                "NORMAL",
+                GameMode.MAP_SELECT,
+                Difficulty.NORMAL,
                 26000L,
                 "1".repeat(33)
         );

@@ -25,7 +25,7 @@ jobs:
         with:
           api_token: "${{ secrets.KOYEB_API_TOKEN }}"
 
-      # (Optional but recommended) Create/update Koyeb secrets from GitHub Secrets
+      # Create/update Koyeb secrets from GitHub Secrets
       - name: Create Koyeb secret - SPRING_DATASOURCE_URL
         uses: koyeb/action-git-deploy/secret@v1
         with:
@@ -44,12 +44,20 @@ jobs:
           secret-name: SPRING_DATASOURCE_PASSWORD
           secret-value: "${{ secrets.SPRING_DATASOURCE_PASSWORD }}"
 
+      # ONE-TIME cleanup: remove Frankfurt (fra) if it exists on the service
+      # After your deploy succeeds once, you can delete this step.
+      - name: Remove FRA region if present (one-time fix)
+        run: koyeb service update fit-maisie/snake-leaderboard-backend --region '!fra'
+
       - name: Build and deploy to Koyeb
         uses: koyeb/action-git-deploy@v1
         with:
           # choose stable names so it updates the same service each time
           app-name: fit-maisie
           service-name: snake-leaderboard-backend
+
+          # FORCE only North America (prevents fra from being used)
+          regions: na
 
           # Your Spring port (8080 recommended)
           service-ports: "8080:http"

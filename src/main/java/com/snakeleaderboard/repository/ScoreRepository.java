@@ -6,6 +6,9 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 import java.util.UUID;
 
+/**
+ * JDBC-based persistence operations for player scores.
+ */
 @Repository
 public class ScoreRepository {
 
@@ -15,6 +18,11 @@ public class ScoreRepository {
         this.jdbc = jdbc;
     }
 
+    /**
+     * Updates the stored display name for all of a player's scores.
+     *
+     * <p>This keeps leaderboard results in sync with the player's most recent name.</p>
+     */
     public void updatePlayerName(UUID playerId, String playerName) {
         jdbc.sql("""
                 UPDATE scores
@@ -25,6 +33,17 @@ public class ScoreRepository {
                 .update();
     }
 
+    /**
+     * Inserts a new score row or conditionally updates an existing one.
+     *
+     * <p>The database enforces uniqueness on {@code (player_id, map_id, mode, difficulty)}. When a
+     * conflict occurs, the existing row is updated <em>only</em> if the new submission is better
+     * (higher score, or equal score with a higher {@code time_survived_ms}).</p>
+     *
+     * @param score score data to insert/update
+     * @return a list containing the persisted row id when inserted/updated, or an empty list if the
+     * submission did not beat the existing row
+     */
     public List<UUID> upsertScore(ScoreWrite score) {
         return jdbc.sql("""
                 INSERT INTO scores
@@ -61,6 +80,12 @@ public class ScoreRepository {
                 .list();
     }
 
+    /**
+     * Finds the id of an existing score row for the given unique key.
+     *
+     * <p>Used when a submission does not improve the stored score and therefore does not update the
+     * row (and returns no id from {@link #upsertScore(ScoreWrite)}).</p>
+     */
     public UUID findScoreId(UUID playerId, int mapId, String mode, String difficulty) {
         return jdbc.sql("""
                 SELECT id FROM scores

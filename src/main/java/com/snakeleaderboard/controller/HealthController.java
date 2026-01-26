@@ -5,11 +5,17 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Map;
 
+/**
+ * Lightweight endpoints for service discovery and health checks.
+ */
 @RestController
 public class HealthController {
 
     /**
-     * API info endpoint (moved off "/") so the website can use "/" for index.html.
+     * Returns basic service metadata.
+     *
+     * <p>This endpoint is intentionally served from {@code /api} (instead of {@code /}) so the
+     * website can use {@code /} for {@code index.html}.</p>
      */
     @GetMapping("/api")
     public Map<String, Object> apiRoot() {
@@ -20,7 +26,9 @@ public class HealthController {
     }
 
     /**
-     * Health check endpoint (kept).
+     * Health check endpoint.
+     *
+     * <p>Returns {@code {"status":"up"}} when the process is running.</p>
      */
     @GetMapping("/health")
     public Map<String, Object> health() {

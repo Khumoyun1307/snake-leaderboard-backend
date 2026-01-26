@@ -18,10 +18,24 @@ import java.time.ZoneOffset;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Simple, database-backed rate limiter for score submissions.
+ *
+ * <p>Applies a fixed request limit to {@code POST /api/scores} per client IP within a rolling
+ * one-minute window. Buckets are stored in the {@code rate_limits} table so that rate limiting
+ * works consistently across multiple application instances.</p>
+ *
+ * <h2>Forwarded IP handling</h2>
+ * <p>When {@code rate_limit.trust_forwarded_headers=true}, the filter will use the first value in
+ * {@code X-Forwarded-For} <em>only</em> if {@link HttpServletRequest#getRemoteAddr()} matches a
+ * trusted proxy. Trusted proxies are configured via {@code rate_limit.trusted_proxies} as a
+ * comma-separated list of IPv4 addresses or CIDR ranges (e.g. {@code 10.0.0.0/8}), or {@code *}
+ * to trust all proxies.</p>
+ */
 @Component
 public class RateLimitFilter implements Filter {
 
-    private static final int LIMIT = 30; // requests
+    private static final int LIMIT = 30; // requests per window
     private static final Duration WINDOW = Duration.ofMinutes(1);
 
     private final JdbcClient jdbc;
@@ -79,6 +93,13 @@ public class RateLimitFilter implements Filter {
         res.getWriter().write("{\"error\":\"Too Many Requests\"}");
     }
 
+    /**
+     * Resolves the client IP address for rate limiting.
+     *
+     * <p>By default, this uses {@link HttpServletRequest#getRemoteAddr()}. If forwarded headers are
+     * enabled and the direct peer is a trusted proxy, it uses the first address in
+     * {@code X-Forwarded-For}.</p>
+     */
     private String resolveClientIp(HttpServletRequest req) {
         String remoteAddr = req.getRemoteAddr();
         if (!trustForwardedHeaders || !isTrustedProxy(remoteAddr)) {
@@ -91,6 +112,9 @@ public class RateLimitFilter implements Filter {
         return forwarded.split(",")[0].trim();
     }
 
+    /**
+     * Checks whether {@code remoteAddr} is allowed to supply forwarded headers.
+     */
     private boolean isTrustedProxy(String remoteAddr) {
         if (trustAllProxies) {
             return true;
@@ -106,6 +130,16 @@ public class RateLimitFilter implements Filter {
         return false;
     }
 
+    /**
+     * Records this request in the current window and determines whether it is allowed.
+     *
+     * <p>The implementation uses a single upsert to either (a) start a new window for the IP when
+     * the previous window has expired or (b) increment the current window's request count.</p>
+     *
+     * @param ip client IP bucket key
+     * @param now current timestamp in UTC
+     * @return {@code true} when under the limit; {@code false} when the limit has been exceeded
+     */
     private boolean isAllowed(String ip, OffsetDateTime now) {
         OffsetDateTime windowStart = now.minus(WINDOW);
 
@@ -144,6 +178,11 @@ public class RateLimitFilter implements Filter {
             this.mask = mask;
         }
 
+        /**
+         * Parses a comma-separated list of proxy ranges.
+         *
+         * <p>Entries may be exact addresses (string match) or IPv4 CIDR ranges (e.g. {@code 10.0.0.0/8}).</p>
+         */
         static List<IpRange> parseList(String config) {
             if (config == null || config.isBlank()) {
                 return List.of();
@@ -160,6 +199,14 @@ public class RateLimitFilter implements Filter {
             return List.copyOf(ranges);
         }
 
+        /**
+         * Parses a single proxy range expression.
+         *
+         * <p>CIDR ranges are IPv4-only; exact matches are compared as raw strings (so IPv6 literals
+         * can be used as exact matches).</p>
+         *
+         * @throws IllegalArgumentException if the value is not a valid IPv4/CIDR expression
+         */
         static IpRange parse(String value) {
             if (value.contains("/")) {
                 String[] parts = value.split("/", 2);
@@ -175,6 +222,9 @@ public class RateLimitFilter implements Filter {
             return new IpRange(value, null, null);
         }
 
+        /**
+         * Returns whether the given IP belongs to this range.
+         */
         boolean matches(String ip) {
             if (exact != null) {
                 return exact.equals(ip);
@@ -187,6 +237,11 @@ public class RateLimitFilter implements Filter {
             }
         }
 
+        /**
+         * Parses an IPv4 address into an integer.
+         *
+         * @throws IllegalArgumentException if the value is not a valid IPv4 literal
+         */
         private static int ipv4ToInt(String ip) {
             String[] parts = ip.split("\\.");
             if (parts.length != 4) {

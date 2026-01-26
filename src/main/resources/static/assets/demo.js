@@ -19,17 +19,63 @@
     const cols = Math.floor(W / cell);
     const rows = Math.floor(H / cell);
 
+    let best = 0;
+
+    const state = {
+      snake: [],
+      dir: {x: 1, y: 0},
+      nextDir: {x: 1, y: 0},
+      food: {x: 10, y: 10},
+      score: 0,
+      alive: true,
+      t: 0,
+      speed: 8.5,
+    };
+
+    const rand = (n) => Math.floor(Math.random() * n);
+
+    const isTouchCapable =
+      (navigator.maxTouchPoints && navigator.maxTouchPoints > 0) ||
+      ("ontouchstart" in window) ||
+      (window.matchMedia && window.matchMedia("(pointer: coarse)").matches);
+
+    if (isTouchCapable) {
+      demoRoot?.classList.add("demo-touch");
+      canvas.style.touchAction = "none";
+    }
 
     canvas.setAttribute("tabindex", "0"); // make sure it can receive focus
     let demoActive = false;
 
     function setDemoActive(active) {
       demoActive = active;
-      demoRoot?.classList.toggle("demo-active", active);
     }
 
     const SWIPE_THRESHOLD = 24;
-    let swipe = null;
+    const supportsPointer = "PointerEvent" in window;
+    let gesture = null;
+
+    function dirFromVector(dx, dy) {
+      if (Math.abs(dx) > Math.abs(dy)) return {x: dx < 0 ? -1 : 1, y: 0};
+      return {x: 0, y: dy < 0 ? -1 : 1};
+    }
+
+    function dirFromClientPoint(clientX, clientY) {
+      const rect = canvas.getBoundingClientRect();
+      const x = Math.max(0, Math.min(rect.width, clientX - rect.left));
+      const y = Math.max(0, Math.min(rect.height, clientY - rect.top));
+
+      const distTop = y;
+      const distBottom = rect.height - y;
+      const distLeft = x;
+      const distRight = rect.width - x;
+
+      const min = Math.min(distTop, distBottom, distLeft, distRight);
+      if (min === distTop) return {x: 0, y: -1};
+      if (min === distBottom) return {x: 0, y: 1};
+      if (min === distLeft) return {x: -1, y: 0};
+      return {x: 1, y: 0};
+    }
 
     function queueDir(x, y) {
       state.nextDir = {x, y};
@@ -42,50 +88,171 @@
       else if (name === "right") queueDir(1, 0);
     }
 
-    canvas.addEventListener("pointerdown", (e) => {
-      canvas.focus({ preventScroll: true });
+    function activateDemo() {
       setDemoActive(true);
+      try {
+        canvas.focus({ preventScroll: true });
+      } catch (err) {
+        // ignore
+      }
+    }
 
-      const isTouch = e.pointerType === "touch" || e.pointerType === "pen";
-      if (isTouch && !swipe) {
-        swipe = {
+    if (supportsPointer) {
+      canvas.addEventListener("pointerdown", (e) => {
+        activateDemo();
+        if (gesture) return;
+
+        gesture = {
           pointerId: e.pointerId,
           startX: e.clientX,
           startY: e.clientY,
-          used: false,
+          lastX: e.clientX,
+          lastY: e.clientY,
+          swiped: false,
         };
 
-        try {
-          canvas.setPointerCapture(e.pointerId);
-        } catch (err) {
-          // ignore
+        const isTouch = e.pointerType === "touch" || e.pointerType === "pen";
+        if (isTouch) {
+          try {
+            canvas.setPointerCapture(e.pointerId);
+          } catch (err) {
+            // ignore
+          }
         }
-      }
-    }, { passive: false });
+      });
 
-    canvas.addEventListener("pointermove", (e) => {
-      if (!swipe || swipe.pointerId !== e.pointerId || swipe.used) return;
+      canvas.addEventListener("pointermove", (e) => {
+        if (!gesture || gesture.pointerId !== e.pointerId || gesture.swiped) return;
 
-      const dx = e.clientX - swipe.startX;
-      const dy = e.clientY - swipe.startY;
-      const ax = Math.abs(dx);
-      const ay = Math.abs(dy);
+        gesture.lastX = e.clientX;
+        gesture.lastY = e.clientY;
 
-      if (Math.max(ax, ay) < SWIPE_THRESHOLD) return;
+        const dx = gesture.lastX - gesture.startX;
+        const dy = gesture.lastY - gesture.startY;
+        const ax = Math.abs(dx);
+        const ay = Math.abs(dy);
 
-      if (ax > ay) queueDir(dx > 0 ? 1 : -1, 0);
-      else queueDir(0, dy > 0 ? 1 : -1);
+        if (Math.max(ax, ay) < SWIPE_THRESHOLD) return;
 
-      swipe.used = true;
-      e.preventDefault();
-    }, { passive: false });
+        const d = dirFromVector(dx, dy);
+        queueDir(d.x, d.y);
+        gesture.swiped = true;
+        e.preventDefault();
+      }, { passive: false });
 
-    function endSwipe(e) {
-      if (swipe && swipe.pointerId === e.pointerId) swipe = null;
+      canvas.addEventListener("pointerup", (e) => {
+        if (!gesture || gesture.pointerId !== e.pointerId) return;
+
+        gesture.lastX = e.clientX;
+        gesture.lastY = e.clientY;
+
+        const dx = gesture.lastX - gesture.startX;
+        const dy = gesture.lastY - gesture.startY;
+        const ax = Math.abs(dx);
+        const ay = Math.abs(dy);
+
+        if (!gesture.swiped) {
+          if (Math.max(ax, ay) >= SWIPE_THRESHOLD) {
+            const d = dirFromVector(dx, dy);
+            queueDir(d.x, d.y);
+          } else {
+            const d = dirFromClientPoint(e.clientX, e.clientY);
+            queueDir(d.x, d.y);
+          }
+        }
+
+        gesture = null;
+      });
+
+      canvas.addEventListener("pointercancel", (e) => {
+        if (gesture && gesture.pointerId === e.pointerId) gesture = null;
+      });
+    } else {
+      canvas.addEventListener("touchstart", (e) => {
+        if (gesture || e.changedTouches.length === 0) return;
+        const t = e.changedTouches[0];
+
+        activateDemo();
+        gesture = {
+          touchId: t.identifier,
+          startX: t.clientX,
+          startY: t.clientY,
+          lastX: t.clientX,
+          lastY: t.clientY,
+          swiped: false,
+        };
+      }, { passive: true });
+
+      canvas.addEventListener("touchmove", (e) => {
+        if (!gesture) return;
+        e.preventDefault();
+        if (gesture.swiped) return;
+
+        let t = null;
+        for (const touch of Array.from(e.changedTouches)) {
+          if (touch.identifier === gesture.touchId) {
+            t = touch;
+            break;
+          }
+        }
+        if (!t) return;
+
+        gesture.lastX = t.clientX;
+        gesture.lastY = t.clientY;
+
+        const dx = gesture.lastX - gesture.startX;
+        const dy = gesture.lastY - gesture.startY;
+        const ax = Math.abs(dx);
+        const ay = Math.abs(dy);
+
+        if (Math.max(ax, ay) < SWIPE_THRESHOLD) return;
+
+        const d = dirFromVector(dx, dy);
+        queueDir(d.x, d.y);
+        gesture.swiped = true;
+        e.preventDefault();
+      }, { passive: false });
+
+      canvas.addEventListener("touchend", (e) => {
+        if (!gesture) return;
+
+        let t = null;
+        for (const touch of Array.from(e.changedTouches)) {
+          if (touch.identifier === gesture.touchId) {
+            t = touch;
+            break;
+          }
+        }
+        if (!t) {
+          gesture = null;
+          return;
+        }
+
+        gesture.lastX = t.clientX;
+        gesture.lastY = t.clientY;
+
+        const dx = gesture.lastX - gesture.startX;
+        const dy = gesture.lastY - gesture.startY;
+        const ax = Math.abs(dx);
+        const ay = Math.abs(dy);
+
+        if (!gesture.swiped) {
+          if (Math.max(ax, ay) >= SWIPE_THRESHOLD) {
+            const d = dirFromVector(dx, dy);
+            queueDir(d.x, d.y);
+          } else {
+            const d = dirFromClientPoint(t.clientX, t.clientY);
+            queueDir(d.x, d.y);
+          }
+        }
+
+        gesture = null;
+      }, { passive: true });
+
+      canvas.addEventListener("touchcancel", () => {
+        gesture = null;
+      }, { passive: true });
     }
-
-    canvas.addEventListener("pointerup", endSwipe);
-    canvas.addEventListener("pointercancel", endSwipe);
 
     canvas.addEventListener("focus", () => setDemoActive(true));
     canvas.addEventListener("blur", () => {
@@ -102,38 +269,66 @@
       if (!btn || !demoRoot.contains(btn)) return;
 
       e.preventDefault();
-      canvas.focus({ preventScroll: true });
-      setDemoActive(true);
+      activateDemo();
 
       const dir = btn.getAttribute("data-demo-dir");
       if (dir) queueDirByName(dir);
     }, { passive: false });
 
+    if (!supportsPointer) {
+      demoRoot?.addEventListener("touchstart", (e) => {
+        if (!(e.target instanceof Element)) return;
+
+        const btn = e.target.closest("[data-demo-dir]");
+        if (!btn || (demoRoot && !demoRoot.contains(btn))) return;
+
+        e.preventDefault();
+        activateDemo();
+
+        const dir = btn.getAttribute("data-demo-dir");
+        if (dir) queueDirByName(dir);
+      }, { passive: false });
+
+      demoRoot?.addEventListener("click", (e) => {
+        if (!(e.target instanceof Element)) return;
+
+        const btn = e.target.closest("[data-demo-dir]");
+        if (!btn || (demoRoot && !demoRoot.contains(btn))) return;
+
+        e.preventDefault();
+        activateDemo();
+
+        const dir = btn.getAttribute("data-demo-dir");
+        if (dir) queueDirByName(dir);
+      });
+    }
+
     // If user clicks anywhere outside the demo, deactivate demo controls
-    document.addEventListener("pointerdown", (e) => {
-      if (demoRoot) {
-        if (!demoRoot.contains(e.target)) setDemoActive(false);
-      } else if (e.target !== canvas) {
-        setDemoActive(false);
-      }
-    });
+    if (supportsPointer) {
+      document.addEventListener("pointerdown", (e) => {
+        if (demoRoot) {
+          if (!demoRoot.contains(e.target)) setDemoActive(false);
+        } else if (e.target !== canvas) {
+          setDemoActive(false);
+        }
+      });
+    } else {
+      document.addEventListener("touchstart", (e) => {
+        if (demoRoot) {
+          if (!demoRoot.contains(e.target)) setDemoActive(false);
+        } else if (e.target !== canvas) {
+          setDemoActive(false);
+        }
+      }, { passive: true });
 
-
-    let best = 0;
-
-    const state = {
-      snake: [],
-      dir: {x: 1, y: 0},
-      nextDir: {x: 1, y: 0},
-      food: {x: 10, y: 10},
-      score: 0,
-      alive: true,
-      t: 0,
-      speed: 8.5,
-    };
-
-    const rand = (n) => Math.floor(Math.random() * n);
-
+      document.addEventListener("mousedown", (e) => {
+        if (demoRoot) {
+          if (!demoRoot.contains(e.target)) setDemoActive(false);
+        } else if (e.target !== canvas) {
+          setDemoActive(false);
+        }
+      });
+    }
     function updateUI() {
       if (scoreEl) scoreEl.textContent = String(state.score);
       if (bestEl) bestEl.textContent = String(best);

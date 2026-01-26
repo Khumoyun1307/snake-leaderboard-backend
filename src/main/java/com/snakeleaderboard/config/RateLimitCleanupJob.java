@@ -8,6 +8,11 @@ import java.time.Duration;
 import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
 
+/**
+ * Periodic cleanup for the {@code rate_limits} table used by {@link RateLimitFilter}.
+ *
+ * <p>Without cleanup, rate-limit buckets would accumulate indefinitely.</p>
+ */
 @Component
 public class RateLimitCleanupJob {
 
@@ -18,6 +23,9 @@ public class RateLimitCleanupJob {
         this.jdbc = jdbc;
     }
 
+    /**
+     * Deletes buckets older than the current rate-limit window.
+     */
     @Scheduled(fixedDelay = 60 * 60 * 1000) // every hour
     public void pruneExpired() {
         OffsetDateTime cutoff = OffsetDateTime.now(ZoneOffset.UTC).minus(WINDOW);

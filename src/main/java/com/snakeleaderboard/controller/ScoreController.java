@@ -11,6 +11,11 @@ import com.snakeleaderboard.error.UnauthorizedException;
 import java.util.Map;
 import java.util.UUID;
 
+/**
+ * API endpoint for submitting player scores.
+ *
+ * <p>Requests must include a valid session id/token pair, obtained from {@code POST /api/session}.</p>
+ */
 @RestController
 @RequestMapping("/api")
 public class ScoreController {
@@ -23,6 +28,15 @@ public class ScoreController {
         this.scoreService = scoreService;
     }
 
+    /**
+     * Submits a score for a player.
+     *
+     * @param sessionId session id returned from {@code POST /api/session}
+     * @param sessionToken session token returned from {@code POST /api/session}
+     * @param request score details (validated)
+     * @return a map containing the persisted {@code scoreId}
+     * @throws UnauthorizedException when the session is invalid or expired
+     */
     @PostMapping("/scores")
     @ResponseStatus(HttpStatus.CREATED)
     public Map<String, Object> submitScore(

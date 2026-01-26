@@ -8,6 +8,12 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+/**
+ * Leaderboard query orchestration.
+ *
+ * <p>Applies API-specific semantics (mode rules, optional difficulty filter, and pagination) and
+ * delegates database access to {@link LeaderboardRepository}.</p>
+ */
 @Service
 public class LeaderboardService {
 
@@ -19,6 +25,23 @@ public class LeaderboardService {
         this.leaderboardEntryMapper = leaderboardEntryMapper;
     }
 
+    /**
+     * Returns a page of leaderboard entries for the requested query.
+     *
+     * <p>Special rules:</p>
+     * <ul>
+     *   <li>{@code difficulty} may be {@code null}/blank/{@code ANY} to indicate "all difficulties".</li>
+     *   <li>For {@code MAP_SELECT}, {@code mapId == 0} indicates "any map".</li>
+     *   <li>For {@code RACE}, results are "best per player" and ranked by furthest map reached.</li>
+     * </ul>
+     *
+     * @param mapId map identifier (may be {@code 0} for {@code MAP_SELECT})
+     * @param mode game mode name
+     * @param difficulty difficulty name or {@code ANY} (nullable)
+     * @param limit requested page size (clamped to {@code [1,50]})
+     * @param offset requested offset (clamped to {@code >= 0})
+     * @return leaderboard entries with computed ranks for this page
+     */
     public List<LeaderboardEntry> getTop(
             int mapId,
             String mode,

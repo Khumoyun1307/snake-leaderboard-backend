@@ -10,6 +10,9 @@ import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
 import java.util.UUID;
 
+/**
+ * Score submission orchestration.
+ */
 @Service
 public class ScoreService {
 
@@ -19,6 +22,16 @@ public class ScoreService {
         this.scoreRepository = scoreRepository;
     }
 
+    /**
+     * Persists a score submission.
+     *
+     * <p>If a row for {@code (playerId, mapId, mode, difficulty)} already exists, it is updated only
+     * when the submission is better; otherwise, the existing row is preserved and its id is
+     * returned.</p>
+     *
+     * @param req validated score submission request
+     * @return id of the persisted score row (new or existing)
+     */
     @Transactional
     public UUID saveScore(SubmitScoreRequest req) {
         UUID id = UUID.randomUUID();

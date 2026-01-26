@@ -546,13 +546,17 @@ img, svg, canvas{max-width:100%; height:auto}
 .demo-control[data-demo-dir="down"]{grid-column:2; grid-row:3}
 .demo-control[data-demo-dir="right"]{grid-column:3; grid-row:2}
 
+.demo.demo-touch .demo-controls{display:grid}
+.demo.demo-touch .demo-hint-keyboard{display:none}
+.demo.demo-touch .demo-hint-touch{display:inline}
+.demo.demo-touch #demoCanvas{touch-action: none}
+
 @media (hover: none) and (pointer: coarse){
   .demo-controls{display:grid}
   .demo-hint-keyboard{display:none}
   .demo-hint-touch{display:inline}
 
-  #demoCanvas{touch-action: pan-y}
-  .demo.demo-active #demoCanvas{touch-action: none}
+  #demoCanvas{touch-action: none}
 }
 
 /* CTA + SVG snake */

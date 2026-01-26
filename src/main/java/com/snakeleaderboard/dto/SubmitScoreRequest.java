@@ -11,6 +11,18 @@ import jakarta.validation.constraints.Size;
 
 import java.util.UUID;
 
+/**
+ * Request payload for submitting a score.
+ *
+ * @param playerId stable player identifier
+ * @param playerName player display name (validated)
+ * @param score score value (validated)
+ * @param mapId map identifier (validated)
+ * @param mode game mode
+ * @param difficulty difficulty level
+ * @param timeSurvivedMs optional tie-breaker duration in milliseconds
+ * @param gameVersion optional client/game version string
+ */
 public record SubmitScoreRequest(
 
         @NotNull

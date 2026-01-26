@@ -12,6 +12,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.validation.annotation.Validated;
 
+/**
+ * Read-only API endpoint for fetching leaderboard pages.
+ */
 @Validated
 @RestController
 @RequestMapping("/api")
@@ -23,6 +26,16 @@ public class LeaderboardController {
         this.leaderboardService = leaderboardService;
     }
 
+    /**
+     * Returns a page of leaderboard entries for the requested query.
+     *
+     * @param mapId map identifier (for {@link GameMode#MAP_SELECT}, {@code 0} means "any map")
+     * @param mode game mode
+     * @param difficulty optional difficulty filter (when omitted, results include all difficulties)
+     * @param limit maximum number of results to return
+     * @param offset number of results to skip (0-based)
+     * @return response containing query context and the requested page of entries
+     */
     @GetMapping("/leaderboard")
     public LeaderboardResponse leaderboard(
             @RequestParam

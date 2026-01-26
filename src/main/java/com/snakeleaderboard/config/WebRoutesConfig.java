@@ -4,6 +4,12 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
+/**
+ * Registers forwards for "pretty" URLs that map to static pages.
+ *
+ * <p>Using a server-side forward keeps the browser URL unchanged while allowing the static
+ * site content to live under its directory (e.g. {@code /leaderboard/index.html}).</p>
+ */
 @Configuration
 public class WebRoutesConfig implements WebMvcConfigurer {
 

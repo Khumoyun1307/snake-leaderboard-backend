@@ -18,6 +18,12 @@ import org.springframework.web.method.annotation.MethodArgumentTypeMismatchExcep
 import java.time.Instant;
 import java.util.stream.Collectors;
 
+/**
+ * Central exception-to-response mapping for the REST API.
+ *
+ * <p>Produces a consistent {@link ApiError} body for common client errors (400/401) and a generic
+ * response for unexpected server errors (500).</p>
+ */
 @RestControllerAdvice
 public class ApiExceptionHandler {
 
@@ -70,7 +76,7 @@ public class ApiExceptionHandler {
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ApiError> handleGeneric(Exception ex, HttpServletRequest req) {
-        // Don’t leak internal details to clients
+        // Don't leak internal details to clients
         log.error("Unhandled exception", ex);
         return build(HttpStatus.INTERNAL_SERVER_ERROR, "Unexpected server error", req);
     }

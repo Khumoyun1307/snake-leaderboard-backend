@@ -154,7 +154,7 @@
             <h2 class="h2">Try the demo</h2>
             <p class="muted">
                 Play a basic Snake demo in the browser. This is local only — it does not submit scores anywhere.
-                Use arrow keys (or WASD).
+                Use arrow keys (or WASD). On mobile, swipe or use touch controls.
             </p>
         </div>
 
@@ -171,8 +171,16 @@
 
             <canvas id="demoCanvas" width="980" height="520" tabindex="0" aria-label="Playable snake demo"></canvas>
 
+            <div class="demo-controls" role="group" aria-label="Touch controls">
+                <button class="demo-control" type="button" data-demo-dir="up" aria-label="Move up">&uarr;</button>
+                <button class="demo-control" type="button" data-demo-dir="left" aria-label="Move left">&larr;</button>
+                <button class="demo-control" type="button" data-demo-dir="down" aria-label="Move down">&darr;</button>
+                <button class="demo-control" type="button" data-demo-dir="right" aria-label="Move right">&rarr;</button>
+            </div>
+
             <div class="demo-hint muted tiny">
-                Tip: click inside the demo once, then use arrow keys.
+                <span class="demo-hint-keyboard">Tip: click inside the demo once, then use arrow keys.</span>
+                <span class="demo-hint-touch">Tip: tap the board, then swipe (or use the buttons).</span>
             </div>
         </div>
     </section>

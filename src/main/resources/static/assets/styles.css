@@ -503,6 +503,57 @@ img, svg, canvas{max-width:100%; height:auto}
   outline:none;
 }
 .demo-hint{margin-top:10px}
+.demo-hint-touch{display:none}
+
+.demo-controls{
+  display:none;
+  margin-top:12px;
+  width: min(280px, 100%);
+  margin-left:auto;
+  margin-right:auto;
+  gap:10px;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+}
+
+.demo-control{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  aspect-ratio: 1 / 1;
+  min-height: 54px;
+  border-radius:18px;
+  border:1px solid rgba(255,255,255,.12);
+  background: rgba(255,255,255,.05);
+  color: rgba(238,242,255,.92);
+  font-size:18px;
+  font-weight:800;
+  cursor:pointer;
+  user-select:none;
+  -webkit-user-select:none;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+.demo-control:hover{background: rgba(255,255,255,.08)}
+.demo-control:active{transform: translateY(1px)}
+.demo-control:focus-visible{
+  outline:2px solid rgba(120,166,255,.7);
+  outline-offset:2px;
+}
+
+.demo-control[data-demo-dir="up"]{grid-column:2; grid-row:1}
+.demo-control[data-demo-dir="left"]{grid-column:1; grid-row:2}
+.demo-control[data-demo-dir="down"]{grid-column:2; grid-row:3}
+.demo-control[data-demo-dir="right"]{grid-column:3; grid-row:2}
+
+@media (hover: none) and (pointer: coarse){
+  .demo-controls{display:grid}
+  .demo-hint-keyboard{display:none}
+  .demo-hint-touch{display:inline}
+
+  #demoCanvas{touch-action: pan-y}
+  .demo.demo-active #demoCanvas{touch-action: none}
+}
 
 /* CTA + SVG snake */
 .cta{

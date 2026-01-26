@@ -10,6 +10,8 @@
     const bestEl = document.getElementById("demoBest");
     const restartBtn = document.getElementById("demoRestart");
 
+    const demoRoot = canvas.closest(".demo");
+
     const ctx = canvas.getContext("2d");
     const W = canvas.width, H = canvas.height;
 
@@ -23,19 +25,97 @@
 
     function setDemoActive(active) {
       demoActive = active;
+      demoRoot?.classList.toggle("demo-active", active);
     }
 
-    canvas.addEventListener("pointerdown", () => {
+    const SWIPE_THRESHOLD = 24;
+    let swipe = null;
+
+    function queueDir(x, y) {
+      state.nextDir = {x, y};
+    }
+
+    function queueDirByName(name) {
+      if (name === "up") queueDir(0, -1);
+      else if (name === "down") queueDir(0, 1);
+      else if (name === "left") queueDir(-1, 0);
+      else if (name === "right") queueDir(1, 0);
+    }
+
+    canvas.addEventListener("pointerdown", (e) => {
       canvas.focus({ preventScroll: true });
       setDemoActive(true);
-    });
+
+      const isTouch = e.pointerType === "touch" || e.pointerType === "pen";
+      if (isTouch && !swipe) {
+        swipe = {
+          pointerId: e.pointerId,
+          startX: e.clientX,
+          startY: e.clientY,
+          used: false,
+        };
+
+        try {
+          canvas.setPointerCapture(e.pointerId);
+        } catch (err) {
+          // ignore
+        }
+      }
+    }, { passive: false });
+
+    canvas.addEventListener("pointermove", (e) => {
+      if (!swipe || swipe.pointerId !== e.pointerId || swipe.used) return;
+
+      const dx = e.clientX - swipe.startX;
+      const dy = e.clientY - swipe.startY;
+      const ax = Math.abs(dx);
+      const ay = Math.abs(dy);
+
+      if (Math.max(ax, ay) < SWIPE_THRESHOLD) return;
+
+      if (ax > ay) queueDir(dx > 0 ? 1 : -1, 0);
+      else queueDir(0, dy > 0 ? 1 : -1);
+
+      swipe.used = true;
+      e.preventDefault();
+    }, { passive: false });
+
+    function endSwipe(e) {
+      if (swipe && swipe.pointerId === e.pointerId) swipe = null;
+    }
+
+    canvas.addEventListener("pointerup", endSwipe);
+    canvas.addEventListener("pointercancel", endSwipe);
 
     canvas.addEventListener("focus", () => setDemoActive(true));
-    canvas.addEventListener("blur", () => setDemoActive(false));
+    canvas.addEventListener("blur", () => {
+      requestAnimationFrame(() => {
+        if (demoRoot && demoRoot.contains(document.activeElement)) return;
+        setDemoActive(false);
+      });
+    });
 
-    // If user clicks anywhere outside the canvas, deactivate demo controls
+    demoRoot?.addEventListener("pointerdown", (e) => {
+      if (!(e.target instanceof Element)) return;
+
+      const btn = e.target.closest("[data-demo-dir]");
+      if (!btn || !demoRoot.contains(btn)) return;
+
+      e.preventDefault();
+      canvas.focus({ preventScroll: true });
+      setDemoActive(true);
+
+      const dir = btn.getAttribute("data-demo-dir");
+      if (dir) queueDirByName(dir);
+    }, { passive: false });
+
+    // If user clicks anywhere outside the demo, deactivate demo controls
     document.addEventListener("pointerdown", (e) => {
-      if (e.target !== canvas) setDemoActive(false);
+      if (demoRoot) {
+        if (!demoRoot.contains(e.target)) setDemoActive(false);
+      } else if (e.target !== canvas) {
+        setDemoActive(false);
+      }
     });
 
 
@@ -221,7 +301,10 @@
 
 
 
-    restartBtn?.addEventListener("click", reset);
+    restartBtn?.addEventListener("click", () => {
+      setDemoActive(true);
+      reset();
+    });
     window.addEventListener("keydown", onKey, { passive: false });
 
     // run

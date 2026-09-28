@@ -33,7 +33,7 @@
 
         <div class="navctas">
             <a class="btn" href="/downloads/">Download</a>
-            <a class="btn primary" href="https://github.com/YOUR_GITHUB" target="_blank" rel="noopener">GitHub</a>
+            <a class="btn primary" href="https://github.com/Khumoyun1307" target="_blank" rel="noopener">GitHub</a>
         </div>
     </div>
 
@@ -45,7 +45,7 @@
         <a href="/developers/">For Developers</a>
         <a href="/about/">About</a>
         <a href="/contact/">Contact</a>
-        <a href="https://github.com/YOUR_GITHUB" target="_blank" rel="noopener">GitHub</a>
+        <a href="https://github.com/Khumoyun1307" target="_blank" rel="noopener">GitHub</a>
     </div>
 </header>
 
@@ -55,8 +55,8 @@
             <div class="dev-hero-left">
                 <h1 class="title" style="margin-bottom:10px;">Rules and How to Play</h1>
                 <p class="subtitle">
-                    New to Snake? This page explains the basics and the advanced stuff: controls, maps, modes, scoring,
-                    and game rules.
+                    Learn the desktop game's controls, toroidal board, apple effects, packaged maps, play modes,
+                    and scoring rules.
                 </p>
 
                 <div class="actions" style="margin-top:16px;">
@@ -65,10 +65,10 @@
                 </div>
 
                 <div class="dev-badges">
-                    <span class="pill">Beginner friendly</span>
-                    <span class="pill">Full ruleset</span>
-                    <span class="pill">Modes and maps</span>
-                    <span class="pill">Scoring explained</span>
+                    <span class="pill">Arrow-key controls</span>
+                    <span class="pill">Toroidal board</span>
+                    <span class="pill">Four game modes</span>
+                    <span class="pill">Five apple types</span>
                 </div>
             </div>
 
@@ -84,15 +84,15 @@
                     </div>
                     <div class="dev-kpi-item">
                         <div class="muted tiny">Controls</div>
-                        <div class="dev-kpi-val">Arrow keys or WASD</div>
+                        <div class="dev-kpi-val">Arrow keys + Space</div>
                     </div>
                     <div class="dev-kpi-item">
                         <div class="muted tiny">Lose condition</div>
-                        <div class="dev-kpi-val">Hit wall or self</div>
+                        <div class="dev-kpi-val">Hit self or an obstacle</div>
                     </div>
                     <div class="dev-kpi-item">
                         <div class="muted tiny">Score</div>
-                        <div class="dev-kpi-val">Food + bonuses</div>
+                        <div class="dev-kpi-val">Apple values and effects</div>
                     </div>
                 </div>
 
@@ -111,19 +111,21 @@
                 <h3 class="h3">Start a run</h3>
                 <ul class="dev-list">
                     <li>Launch the desktop client.</li>
-                    <li>Choose a map, mode, and difficulty (if prompted).</li>
-                    <li>Press Start to spawn the snake.</li>
-                    <li>Food appears randomly on the map.</li>
+                    <li>Choose Standard, Map Select, Race, or AI from the menu.</li>
+                    <li>Set the speed and optional obstacles in Difficulty settings.</li>
+                    <li>Select an unlocked map when using Map Select.</li>
+                    <li>Each run begins with a normal apple at an unoccupied grid cell.</li>
                 </ul>
             </article>
 
             <article class="glass dev-card reveal up">
                 <h3 class="h3">Move and turn</h3>
                 <ul class="dev-list">
-                    <li>Use arrow keys or WASD to change direction.</li>
+                    <li>Use the arrow keys to change direction.</li>
                     <li>You can only turn 90 degrees.</li>
-                    <li>Most modes prevent reversing into yourself.</li>
-                    <li>Stay inside the play area unless a map allows wrapping.</li>
+                    <li>An immediate 180-degree reversal is ignored.</li>
+                    <li>Crossing any edge wraps the snake to the opposite side.</li>
+                    <li>Press Space to pause the run.</li>
                 </ul>
             </article>
         </div>
@@ -141,18 +143,19 @@
                 <ul class="dev-list">
                     <li>The snake moves one grid unit per tick.</li>
                     <li>Turning is instant at the next grid step.</li>
-                    <li>Speed increases at defined score thresholds.</li>
-                    <li>Pausing a run freezes the timer and movement.</li>
+                    <li>The selected difficulty determines the base tick speed.</li>
+                    <li>A Slowdown apple temporarily increases the tick delay.</li>
+                    <li>Space pauses movement and opens the pause menu.</li>
                 </ul>
             </article>
 
             <article class="glass dev-card reveal up">
                 <h3 class="h3">Collision rules</h3>
                 <ul class="dev-list">
-                    <li>Hitting a wall ends the run.</li>
+                    <li>The board has no lethal border; every edge wraps.</li>
                     <li>Running into your own body ends the run.</li>
-                    <li>Obstacle collisions end the run on blocked maps.</li>
-                    <li>Border wrapping (if enabled) replaces wall collision.</li>
+                    <li>Touching a static obstacle ends the run.</li>
+                    <li>Touching an enabled moving obstacle ends the run.</li>
                 </ul>
             </article>
         </div>
@@ -162,30 +165,30 @@
         <div class="section-head reveal up">
             <h2 class="h2">Food, growth, and items</h2>
             <p class="muted">
-                Eating food grows the snake and increases score. Optional items can expand the challenge.
+                Every apple grows the snake by one segment. Apple type determines its point value and any temporary effect.
             </p>
         </div>
 
         <div class="dev-grid-3">
             <article class="card glass reveal up">
                 <div class="cardicon">FO</div>
-                <h3 class="h3">Food</h3>
-                <p class="muted">Each food pickup adds length and points.</p>
-                <p class="cardpoint">Default: +1 length per food.</p>
+                <h3 class="h3">Normal</h3>
+                <p class="muted">The standard red apple awards 1 point.</p>
+                <p class="cardpoint">Every apple adds one body segment.</p>
             </article>
 
             <article class="card glass reveal up">
                 <div class="cardicon">SP</div>
-                <h3 class="h3">Speed boosts</h3>
-                <p class="muted">Speed can increase at score milestones.</p>
-                <p class="cardpoint">Tune thresholds to match your pacing.</p>
+                <h3 class="h3">Big and Golden</h3>
+                <p class="muted">Big awards 4 points; Golden awards 2 and activates double scoring for about 10 seconds.</p>
+                <p class="cardpoint">They are scheduled after 8 and 17 eaten apples.</p>
             </article>
 
             <article class="card glass reveal up">
                 <div class="cardicon">IT</div>
-                <h3 class="h3">Special items</h3>
-                <p class="muted">Optional powerups like slow, shrink, or shield.</p>
-                <p class="cardpoint">Optional items add extra depth.</p>
+                <h3 class="h3">Slowdown and Reverse</h3>
+                <p class="muted">Both award 1 point. Slowdown reduces the pace; Reverse temporarily inverts the arrow keys.</p>
+                <p class="cardpoint">Slowdown follows 25 eaten apples; Reverse follows a positive score divisible by 50. Their effects last about 8 seconds.</p>
             </article>
         </div>
     </section>
@@ -194,37 +197,37 @@
         <div class="section-head reveal up">
             <h2 class="h2">Maps</h2>
             <p class="muted">
-                Each map changes the available space and obstacle layout.
+                The game includes ten numbered maps with fixed obstacle layouts, plus an open basic board.
             </p>
         </div>
 
         <div class="dev-grid-3">
             <article class="card glass reveal up">
                 <div class="cardicon">01</div>
-                <h3 class="h3">Classic arena</h3>
-                <p class="muted">Open field with border walls. Best for learning.</p>
-                <p class="cardpoint">Wide lanes and long turns.</p>
+                <h3 class="h3">Basic board</h3>
+                <p class="muted">Standard mode uses the open board and can add random static or moving obstacles.</p>
+                <p class="cardpoint">Its edges wrap just like every packaged map.</p>
             </article>
 
             <article class="card glass reveal up">
                 <div class="cardicon">02</div>
-                <h3 class="h3">Block corners</h3>
-                <p class="muted">Obstacles in corners force tighter routes.</p>
-                <p class="cardpoint">Corner control matters most.</p>
+                <h3 class="h3">Maps 1-10</h3>
+                <p class="muted">Each packaged map defines a different fixed arrangement of blocked grid cells.</p>
+                <p class="cardpoint">Map 1 starts unlocked; Race progress unlocks later maps.</p>
             </article>
 
             <article class="card glass reveal up">
                 <div class="cardicon">03</div>
-                <h3 class="h3">Maze lanes</h3>
-                <p class="muted">Narrow corridors reward precise turns.</p>
-                <p class="cardpoint">Tight paths with limited escape.</p>
+                <h3 class="h3">Map progression</h3>
+                <p class="muted">Map Select plays one unlocked map; Race begins on Map 1 and advances in order.</p>
+                <p class="cardpoint">Race advances after the configured number of apples.</p>
             </article>
         </div>
 
         <div class="dev-callout">
             <div class="dev-callout-title">Map rules</div>
             <div class="muted tiny">
-                Some maps can enable wraparound or special zones.
+                Map files define only fixed obstacle cells. Toroidal edge wrapping remains active on every map.
             </div>
         </div>
     </section>
@@ -232,58 +235,58 @@
     <section class="section container">
         <div class="section-head reveal up">
             <h2 class="h2">Modes</h2>
-            <p class="muted">Modes change objectives and how maps are selected.</p>
+            <p class="muted">Player runs use Standard, Map Select, or Race; AI mode drives the snake with an A* strategy.</p>
         </div>
 
         <div class="dev-grid-3">
             <article class="card glass reveal up">
                 <div class="cardicon">STD</div>
                 <h3 class="h3">STANDARD</h3>
-                <p class="muted">Classic Snake gameplay with default rules.</p>
-                <p class="cardpoint">Use this for most leaderboard runs.</p>
+                <p class="muted">Endless play on the basic board with optional random and moving obstacles.</p>
+                <p class="cardpoint">AI mode can instead use Chase, Safe, or Survival behavior.</p>
             </article>
 
             <article class="card glass reveal up">
                 <div class="cardicon">MAP</div>
-                <h3 class="h3">MAP_SELECT</h3>
+                <h3 class="h3">MAP SELECT</h3>
                 <p class="muted">Choose a specific map before starting a run.</p>
-                <p class="cardpoint">Useful for practice and challenges.</p>
+                <p class="cardpoint">Only unlocked packaged maps are available in normal play.</p>
             </article>
 
             <article class="card glass reveal up">
                 <div class="cardicon">RCE</div>
                 <h3 class="h3">RACE</h3>
-                <p class="muted">Score or time based objective mode.</p>
-                <p class="cardpoint">Define finish conditions and bonuses.</p>
+                <p class="muted">Start on Map 1 and advance through sequential maps by eating the configured apple threshold.</p>
+                <p class="cardpoint">The default threshold is 20 apples per map.</p>
             </article>
         </div>
     </section>
 
     <section class="section container">
         <div class="section-head reveal up">
-            <h2 class="h2">Difficulty tiers</h2>
-            <p class="muted">Difficulty adjusts speed, spawn pacing, and scoring.</p>
+            <h2 class="h2">Difficulty and speed</h2>
+            <p class="muted">The 0-50 difficulty slider changes movement speed; it does not change apple values.</p>
         </div>
 
         <div class="dev-grid-2">
             <article class="glass dev-card reveal up">
                 <h3 class="h3">Available difficulties</h3>
                 <ul class="dev-list">
-                    <li>EASY: slower speed, generous turn window.</li>
-                    <li>NORMAL: baseline speed and scoring.</li>
-                    <li>HARD: faster ticks, tighter recovery.</li>
-                    <li>EXPERT: high speed with minimal forgiveness.</li>
-                    <li>INSANE: fastest pace, high risk.</li>
+                    <li>Levels 0-19: Beginner or Easy, recorded as EASY.</li>
+                    <li>Levels 20-29: Medium, recorded as NORMAL.</li>
+                    <li>Levels 30-39: Hard, recorded as HARD.</li>
+                    <li>Levels 40-49: Expert, recorded as EXPERT.</li>
+                    <li>Level 50: Insane, recorded as INSANE.</li>
                 </ul>
             </article>
 
             <article class="glass dev-card reveal up">
                 <h3 class="h3">What changes</h3>
                 <ul class="dev-list">
-                    <li>Movement speed and acceleration thresholds.</li>
-                    <li>Spawn rate for food or bonus items.</li>
-                    <li>Score multipliers or end of run bonuses.</li>
-                    <li>Leaderboard filters reflect difficulty.</li>
+                    <li>Base tick delay ranges from 180 ms at level 0 to 60 ms at level 50.</li>
+                    <li>Slowdown temporarily adds 60 ms to the active tick delay.</li>
+                    <li>Static and moving obstacles are separate settings.</li>
+                    <li>The run's difficulty label is included with leaderboard submissions.</li>
                 </ul>
             </article>
         </div>
@@ -293,7 +296,7 @@
         <div class="section-head reveal up">
             <h2 class="h2">Scoring and progress</h2>
             <p class="muted">
-                Scoring combines base points with bonuses.
+                The score is the sum of apple values, with active Golden double scoring applied when an apple is collected.
             </p>
         </div>
 
@@ -301,24 +304,24 @@
             <article class="glass dev-card reveal up">
                 <h3 class="h3">Score basics</h3>
                 <ul class="dev-list">
-                    <li>Food pickup adds a base score.</li>
-                    <li>Speed tiers can add a multiplier.</li>
-                    <li>Difficulty can add a flat bonus.</li>
-                    <li>Optional bonus items add extra points.</li>
+                    <li>Normal, Slowdown, and Reverse apples award 1 point.</li>
+                    <li>Big apples award 4 points.</li>
+                    <li>Golden apples award 2 points and start a temporary double-score effect.</li>
+                    <li>Difficulty and survival time do not add points.</li>
                 </ul>
 
                 <div class="dev-code">
-                    <pre><code>score = (food * 10) + (time * 1) + (difficultyBonus)</code></pre>
+                    <pre><code>Normal +1 | Big +4 | Golden +2 | Slowdown +1 | Reverse +1</code></pre>
                 </div>
             </article>
 
             <article class="glass dev-card reveal up">
                 <h3 class="h3">Progress stages</h3>
                 <ul class="dev-list">
-                    <li>Early game: focus on safe turns and space.</li>
-                    <li>Mid game: speed increases, routes tighten.</li>
-                    <li>Late game: avoid self traps and plan exits.</li>
-                    <li>End: run ends on collision or objective completion.</li>
+                    <li>Each apple grows the snake by one segment.</li>
+                    <li>Race preserves the score while advancing to the next map.</li>
+                    <li>The last run and highest-scoring run are saved as deterministic replays.</li>
+                    <li>A run ends after a self, static-obstacle, or moving-obstacle collision.</li>
                 </ul>
             </article>
         </div>
@@ -340,9 +343,9 @@
 
             <article class="card glass reveal up">
                 <div class="cardicon">SS</div>
-                <h3 class="h3">Session protected submits</h3>
-                <p class="muted">Submissions require a short lived session.</p>
-                <p class="cardpoint">Helps reduce spam and replays.</p>
+                <h3 class="h3">Save and replay</h3>
+                <p class="muted">Pause a run to save it, then continue later from the main menu.</p>
+                <p class="cardpoint">Watch-only last-run and best-run replays are recorded automatically.</p>
             </article>
 
             <article class="card glass reveal up">
@@ -374,7 +377,7 @@
                 <h3 class="h3">Scoring tips</h3>
                 <ul class="dev-list">
                     <li>Focus on survival over risky shortcuts.</li>
-                    <li>Use easier maps to learn speed changes.</li>
+                    <li>Use the basic board and a lower difficulty to learn the controls.</li>
                     <li>Practice a single map to master routes.</li>
                 </ul>
             </article>
@@ -385,16 +388,16 @@
         <div class="cta glass reveal up">
             <div class="cta-left">
                 <h2 class="h2">Built by</h2>
-                <p class="muted">Created by Your Name. For questions or feedback, reach out anytime.</p>
+                <p class="muted">Created by Khumoyun Abulkosimov. For questions or feedback, use the contact page.</p>
                 <div class="actions">
                     <a class="btn primary" href="/contact/">Contact</a>
-                    <a class="btn" href="https://YOUR_PORTFOLIO" target="_blank" rel="noopener">Portfolio</a>
+                    <a class="btn" href="https://linkedin.com/in/khumoyun-abulkosimov" target="_blank" rel="noopener">LinkedIn</a>
                 </div>
             </div>
 
             <div class="cta-right">
                 <div class="muted tiny">
-                    Built by: <span class="grad">Your Name</span><br/>
+                    Built by: <span class="grad">Khumoyun Abulkosimov</span><br/>
                     Project: <span class="grad">Snake</span>
                 </div>
             </div>
@@ -432,13 +435,13 @@
 
             <div class="footcol">
                 <h4>Links</h4>
-                <a href="https://YOUR_PORTFOLIO" target="_blank" rel="noopener">Portfolio</a>
-                <a href="https://github.com/YOUR_GITHUB" target="_blank" rel="noopener">GitHub</a>
+                <a href="https://linkedin.com/in/khumoyun-abulkosimov" target="_blank" rel="noopener">LinkedIn</a>
+                <a href="https://github.com/Khumoyun1307" target="_blank" rel="noopener">GitHub</a>
             </div>
         </div>
 
         <div class="container footbottom">
-            <span class="muted tiny">&copy; <span id="year"></span> Your Name</span>
+            <span class="muted tiny">&copy; <span id="year"></span> Khumoyun Abulkosimov</span>
         </div>
     </footer>
 </main>

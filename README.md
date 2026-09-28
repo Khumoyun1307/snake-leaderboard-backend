@@ -152,7 +152,7 @@ Static pages are served by Spring Boot from `src/main/resources/static`:
 - `/rules/` gameplay rules
 - `/contact/` contact page
 
-Update placeholder links in the HTML pages to point to your GitHub, portfolio, and email.
+Public project links point to the backend source, desktop client, releases, issue tracker, GitHub profile, and LinkedIn profile for Khumoyun Abulkosimov.
 
 ## Local development
 Requirements

@@ -33,7 +33,7 @@
 
         <div class="navctas">
             <a class="btn" href="/downloads/">Download</a>
-            <a class="btn primary" href="https://github.com/YOUR_GITHUB" target="_blank" rel="noopener">GitHub</a>
+            <a class="btn primary" href="https://github.com/Khumoyun1307/snake-leaderboard-backend" target="_blank" rel="noopener">Backend source</a>
         </div>
     </div>
 
@@ -45,7 +45,7 @@
         <a href="/developers/">For Developers</a>
         <a href="/about/">About</a>
         <a href="/contact/">Contact</a>
-        <a href="https://github.com/YOUR_GITHUB" target="_blank" rel="noopener">GitHub</a>
+        <a href="https://github.com/Khumoyun1307/snake-leaderboard-backend" target="_blank" rel="noopener">Backend source</a>
     </div>
 </header>
 
@@ -54,7 +54,7 @@
         <div class="dev-hero reveal up">
             <div class="dev-hero-left">
                 <h1 class="title" style="margin-bottom:10px;">
-                    Built like a <span class="grad">real product</span>.
+                    One API, <span class="grad">two clients</span>.
                 </h1>
                 <p class="subtitle">
                     Snake is a desktop game (Java Swing) backed by a deployed Spring Boot service.
@@ -108,18 +108,18 @@
         <div class="section-head reveal up">
             <h2 class="h2">Engineering highlights</h2>
             <p class="muted">
-                This project was designed to be production-style: clear API contracts, input validation, and an interface that stays stable across multiple clients.
+                The service combines validated REST endpoints, PostgreSQL persistence, session-protected score submission, and a shared contract for the desktop and web clients.
             </p>
         </div>
 
         <div class="dev-grid-3">
             <article class="card glass reveal up">
                 <div class="cardicon">🏗️</div>
-                <h3 class="h3">Clean architecture</h3>
+                <h3 class="h3">Layered service design</h3>
                 <p class="muted">
-                    Controller → service → persistence layering with DTO-based responses for predictable API output.
+                    Controllers delegate business rules and database work to focused services, with DTO-based responses for predictable API output.
                 </p>
-                <p class="cardpoint">Designed so new modes/maps can be added without breaking clients.</p>
+                <p class="cardpoint">Mode-aware queries keep ranking behavior consistent across clients.</p>
             </article>
 
             <article class="card glass reveal up">
@@ -133,9 +133,9 @@
 
             <article class="card glass reveal up">
                 <div class="cardicon">⚡</div>
-                <h3 class="h3">Performance & UX</h3>
+                <h3 class="h3">Ranked queries</h3>
                 <p class="muted">
-                    Paginated leaderboard reads with fast filtering options on the client UI.
+                    Paginated leaderboard reads support map, mode, and difficulty filters.
                 </p>
                 <p class="cardpoint">Same endpoint serves both desktop and web.</p>
             </article>
@@ -203,10 +203,10 @@
             <article class="glass dev-stack reveal up">
                 <h3 class="h3">Backend</h3>
                 <ul class="dev-list">
-                    <li>Java + Spring Boot</li>
-                    <li>REST controllers + DTOs</li>
-                    <li>Validation (Jakarta Validation)</li>
-                    <li>Session + token headers for writes</li>
+                    <li>Java 21 + Spring Boot 4</li>
+                    <li>PostgreSQL + Flyway migrations</li>
+                    <li>Spring JdbcClient + response DTOs</li>
+                    <li>Session tokens + rate-limited score writes</li>
                 </ul>
             </article>
 
@@ -214,9 +214,9 @@
                 <h3 class="h3">Desktop client</h3>
                 <ul class="dev-list">
                     <li>Java Swing UI</li>
-                    <li>Game loop + rendering</li>
-                    <li>Keyboard input handling</li>
-                    <li>API client for leaderboard</li>
+                    <li>Multiple modes, maps, and difficulty levels</li>
+                    <li>A* AI, replay, and persistence systems</li>
+                    <li>Shared online leaderboard API client</li>
                 </ul>
             </article>
 
@@ -225,16 +225,16 @@
                 <ul class="dev-list">
                     <li>Static HTML/CSS/JS served by Spring Boot</li>
                     <li>Responsive layout + glass UI</li>
-                    <li>Leaderboard page with client-side search</li>
+                    <li>Live leaderboard filters and pagination</li>
                 </ul>
             </article>
 
             <article class="glass dev-stack reveal up">
                 <h3 class="h3">Deployment</h3>
                 <ul class="dev-list">
-                    <li>Deployed backend service (public API)</li>
-                    <li>Health endpoint for monitoring</li>
-                    <li>Single-origin hosting for web + API</li>
+                    <li>GitHub Actions CI and deployment workflow</li>
+                    <li>Koyeb-hosted service with health monitoring</li>
+                    <li>Single-origin hosting for the website and API</li>
                 </ul>
             </article>
         </div>
@@ -371,13 +371,13 @@ X-Session-Token: &lt;token&gt;</code></pre>
 
             <div class="footcol">
                 <h4>Links</h4>
-                <a href="https://YOUR_PORTFOLIO" target="_blank" rel="noopener">Portfolio</a>
-                <a href="https://github.com/YOUR_GITHUB" target="_blank" rel="noopener">GitHub</a>
+                <a href="https://linkedin.com/in/khumoyun-abulkosimov" target="_blank" rel="noopener">LinkedIn</a>
+                <a href="https://github.com/Khumoyun1307" target="_blank" rel="noopener">GitHub</a>
             </div>
         </div>
 
         <div class="container footbottom">
-            <span class="muted tiny">© <span id="year"></span> Your Name</span>
+            <span class="muted tiny">© <span id="year"></span> Khumoyun Abulkosimov</span>
         </div>
     </footer>
 </main>

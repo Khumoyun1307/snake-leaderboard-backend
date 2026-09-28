@@ -14,39 +14,39 @@
 
   const cardData = [
     {
-      title: "Neo Arcade",
-      subtitle: "A neon glow with deliberate shadows and a retro pulse.",
-      tag: "Arcade",
+      title: "Ranked Leaderboards",
+      subtitle: "Spring Boot and PostgreSQL rank scores by map, mode, and difficulty with pagination.",
+      tag: "Backend",
       bg: "radial-gradient(140% 90% at 20% 10%, rgba(120,166,255,0.45), transparent 55%), linear-gradient(140deg, rgba(12,18,28,0.95), rgba(24,36,52,0.95))"
     },
     {
-      title: "Circuit Drift",
-      subtitle: "Clean lines, icy blues, and a quiet sense of speed.",
-      tag: "Synth",
+      title: "Java Swing Client",
+      subtitle: "The Java 21 desktop game plays locally and submits eligible runs to the online leaderboard.",
+      tag: "Desktop",
       bg: "radial-gradient(140% 90% at 85% 20%, rgba(64,242,201,0.35), transparent 55%), linear-gradient(160deg, rgba(10,16,24,0.95), rgba(22,30,44,0.95))"
     },
     {
-      title: "Vector Field",
-      subtitle: "A grid of motion and a soft glow in the distance.",
-      tag: "Grid",
+      title: "Four Play Modes",
+      subtitle: "Standard, Map Select, Race, and AI offer distinct ways to play or watch a run.",
+      tag: "Gameplay",
       bg: "radial-gradient(140% 90% at 30% 80%, rgba(255,211,110,0.32), transparent 55%), linear-gradient(150deg, rgba(12,16,26,0.95), rgba(26,28,40,0.95))"
     },
     {
-      title: "Night Run",
-      subtitle: "Warm highlights, deep blacks, and a late-night loop.",
-      tag: "Drive",
+      title: "Ten Built-In Maps",
+      subtitle: "Choose unlocked boards in Map Select or advance through the map sequence in Race mode.",
+      tag: "Maps",
       bg: "radial-gradient(140% 90% at 70% 20%, rgba(120,90,255,0.28), transparent 55%), linear-gradient(160deg, rgba(8,10,16,0.95), rgba(18,20,30,0.95))"
     },
     {
-      title: "Signal Bloom",
-      subtitle: "Bright accents, subtle grain, and a sharp horizon.",
-      tag: "Signal",
+      title: "A* AI Strategies",
+      subtitle: "Chase, Safe, and Survival strategies navigate apples, obstacles, and the snake itself.",
+      tag: "AI",
       bg: "radial-gradient(140% 90% at 30% 20%, rgba(255,140,120,0.30), transparent 55%), linear-gradient(155deg, rgba(10,12,18,0.95), rgba(26,24,30,0.95))"
     },
     {
-      title: "Skyline Pulse",
-      subtitle: "A distant skyline with quiet, electric accents.",
-      tag: "City",
+      title: "Replays & CI",
+      subtitle: "Deterministic last and best replays pair with Maven tests and GitHub Actions CI.",
+      tag: "Quality",
       bg: "radial-gradient(140% 90% at 70% 75%, rgba(120,166,255,0.28), transparent 55%), linear-gradient(150deg, rgba(10,14,22,0.95), rgba(20,26,38,0.95))"
     }
   ];
